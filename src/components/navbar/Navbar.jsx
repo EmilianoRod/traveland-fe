@@ -1,70 +1,72 @@
-import { AppBar, Box, Button, Drawer, IconButton, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Button,
+  Drawer,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import NavListDrawer from "./NavListDrawer";
 import { useState } from "react";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import { NavLink } from "react-router-dom";
 
+function Navbar({ navArrayLinks }) {
+  const [open, setOpen] = useState(false);
 
-
-
-
-function Navbar({navArrayLinks}) {
-
-    const [open, setOpen] = useState(false)
-
-    return (
-        <>
-            <AppBar 
-            position="fixed"
-            sx={{
-                backgroundColor: "white",
-                color: "#005F6B"
+  return (
+    <>
+      <AppBar
+        position="fixed"
+        sx={{
+          backgroundColor: "white",
+          color: "#005F6B",
         }}
-            >
-                <Toolbar>
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            size="large"
+            onClick={() => setOpen(true)}
+            sx={{ display: { xs: "flex", sm: "none" } }}
+          >
+            <MenuIcon />
+          </IconButton>
 
-                    <IconButton
-                        color="inherit"
-                        size="large"
-                        onClick={() => setOpen(true)}
-                        sx={{ display: { xs: "flex", sm: "none" } }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
+          <a href="/">
+            <img src="public/Logo.svg"></img>
+          </a>
+        
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            CADA VIAJE UNA NUEVA EXPERIENCIA
+          </Typography>
+          <Box sx={{ display: { xs: "none", sm: "block" } }}>
+            {navArrayLinks.map((item) => (
+              <Button
+                color="inherit"
+                key={item.title}
+                component={NavLink}
+                to={item.path}
+              >
+                {item.title}
+              </Button>
+            ))}
+          </Box>
+        </Toolbar>
+      </AppBar>
 
-                    <img src="public/Logo.svg"></img>
-
-                    <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                        CADA VIAJE UNA NUEVA EXPERIENCIA
-                    </Typography>
-                    <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                        {
-                            navArrayLinks.map(item => (
-                                <Button
-                                    color="inherit"
-                                    key={item.title}
-                                    component={NavLink}
-                                    to={item.path}
-                                >
-                                    {item.title}
-                                </Button>
-                            ))
-                        }
-                    </Box>
-                </Toolbar>
-            </AppBar>
-
-            <Drawer
-                open={open}
-                anchor="left"
-                onClose={() => setOpen(false)}
-                sx={{ display: { xs: "flex", sm: "none" } }}
-            >
-                <NavListDrawer navArrayLinks={navArrayLinks} setOpen={setOpen}/>
-            </Drawer>
-        </>
-    )
+      <Drawer
+        open={open}
+        anchor="left"
+        onClose={() => setOpen(false)}
+        sx={{ display: { xs: "flex", sm: "none" } }}
+      >
+        <NavListDrawer navArrayLinks={navArrayLinks} setOpen={setOpen} />
+      </Drawer>
+    </>
+  );
 }
 
 export default Navbar;

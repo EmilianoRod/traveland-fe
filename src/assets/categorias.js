@@ -1,0 +1,1 @@
+export default function categorias() {return ["Hola", "Que", "Haces"]}

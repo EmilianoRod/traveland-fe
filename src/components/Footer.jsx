@@ -17,12 +17,12 @@ function Footer (){
                 <Grid container direction="column" alignItems="center">
                     <Grid item xs={12}>
                         <Typography color="black" variant="h5">
-                            React Starter App
+                            Todos los derechos reservados.
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>
                         <Typography color="textSecondary" variant="subtitle1">
-                            {`${new Date().getFullYear()} | React | Material UI | React Router`}
+                            {`${new Date().getFullYear()} Traveland`}
                         </Typography>
                     </Grid>
                 </Grid>

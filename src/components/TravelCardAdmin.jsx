@@ -1,6 +1,14 @@
 import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 
-function TravelCard({nombre, descripcion, imagenes}) {
+function TravelCardAdmin({id, handleDelete, handleUpdate, nombre, descripcion, imagenes, categoria}) {
+
+    function buttonDelete(){
+        handleDelete(id);
+    }
+    function buttonUpdate(){
+        handleUpdate(id, nombre, descripcion, categoria, imagenes);
+    }
+
     return (
         <Card
             sx={{
@@ -20,18 +28,22 @@ function TravelCard({nombre, descripcion, imagenes}) {
                     alt="description"
                 />
                 <CardContent>
-                    <Typography variant="h5">{nombre}</Typography>
+                    <Typography variant="h5">{id + " " + nombre}</Typography>
                     <Typography component="p" variant="body2">
                         {descripcion}
+                    </Typography>
+                    <Typography component="p" variant="body2">
+                        {categoria}
                     </Typography>
                 </CardContent>
             </CardActionArea>
 
             <CardActions>
-                <Button>VER MÁS..</Button>
+                <Button onClick={buttonUpdate} sx={{backgroundColor: "green", color: "white"}}>MODIFICAR</Button>
+                <Button onClick={buttonDelete} sx={{backgroundColor: "red", color: "white"}}>ELIMINAR</Button>
             </CardActions>
         </Card>
     )
 }
 
-export default TravelCard;
+export default TravelCardAdmin;
