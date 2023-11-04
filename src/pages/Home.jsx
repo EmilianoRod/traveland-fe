@@ -4,12 +4,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import CountrySelect from "../components/CountrySelect";
 import TravelCard from "../components/TravelCard";
-<<<<<<< HEAD
 import { Box, Button, Grid, Typography } from "@mui/material";
-=======
 import { useEffect, useState } from "react";
 import Categoria from "../components/navbar/Categoria";
->>>>>>> 82786ad204860cb6ee62960b4253cf014500480d
 
 
 function Home() {
