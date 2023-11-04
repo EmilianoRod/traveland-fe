@@ -13,6 +13,8 @@ import InboxIcon from "@mui/icons-material/Inbox";
 import DraftsIcon from "@mui/icons-material/Drafts";
 import Footer from './components/Footer';
 import Admin from './pages/Admin';
+import PanelProductos from './pages/PanelProductos';
+import PanelUsuarios from './pages/PanelUsuarios';
 
 const navArrayLinks = [
     {
@@ -54,7 +56,8 @@ function App() {
                     <Route path='/login' element={<Login />} />
                     <Route path='/register' element={<Register />} />
                     <Route path='/administracion' element={<Admin />} />
-
+                    <Route path='/administracion/productos' element={<PanelProductos />} />
+                    <Route path='/administracion/usuarios' element={<PanelUsuarios />} />
                 </Routes>
 
             </Container>

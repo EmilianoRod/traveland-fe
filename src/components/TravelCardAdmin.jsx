@@ -6,7 +6,7 @@ function TravelCardAdmin({id, handleDelete, handleUpdate, nombre, descripcion, i
         handleDelete(id);
     }
     function buttonUpdate(){
-        handleUpdate(id, nombre, descripcion, categoria, imagenes);
+        handleUpdate(id);
     }
 
     return (
