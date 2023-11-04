@@ -1,7 +1,7 @@
-import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
+import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 
+function Categoria({nombre}) {
 
-function TravelCard({nombre, descripcion, imagenes}) {
     return (
         <Card
             sx={{
@@ -22,17 +22,11 @@ function TravelCard({nombre, descripcion, imagenes}) {
                 />
                 <CardContent>
                     <Typography variant="h5">{nombre}</Typography>
-                    <Typography component="p" variant="body2">
-                        {descripcion}
-                    </Typography>
                 </CardContent>
             </CardActionArea>
-
-            <CardActions>
-                <Button>VER MÁS..</Button>
-            </CardActions>
         </Card>
     )
 }
 
-export default TravelCard;
+
+export default Categoria;
