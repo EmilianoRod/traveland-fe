@@ -15,6 +15,7 @@ import Footer from './components/Footer';
 import Admin from './pages/Admin';
 import PanelProductos from './pages/PanelProductos';
 import PanelUsuarios from './pages/PanelUsuarios';
+import DetalleProducto from './pages/DetalleProducto';
 
 const navArrayLinks = [
     {
@@ -58,6 +59,7 @@ function App() {
                     <Route path='/administracion' element={<Admin />} />
                     <Route path='/administracion/productos' element={<PanelProductos />} />
                     <Route path='/administracion/usuarios' element={<PanelUsuarios />} />
+                    <Route path='/detalleproducto/:id' element={<DetalleProducto/>} />
                 </Routes>
 
             </Container>
