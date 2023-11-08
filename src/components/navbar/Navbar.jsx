@@ -36,7 +36,7 @@ function Navbar({ navArrayLinks }) {
           </IconButton>
 
           <a href="/">
-            <img src="public/Logo.svg"></img>
+            <img src="/Logo.svg"></img>
           </a>
         
           <Typography variant="h6" sx={{ flexGrow: 1 }}>

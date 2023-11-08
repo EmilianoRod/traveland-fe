@@ -2,7 +2,7 @@ import { SendToMobileRounded } from "@mui/icons-material";
 import { Box, Button, TextField, Autocomplete } from "@mui/material";
 import { useEffect, useState } from "react";
 import opcionesCategorias from "../assets/categorias";
-function NewProduct({ addProduct}) {
+function NewProduct({ addProduct }) {
   const [nombre, setNombre] = useState();
   const [descripcion, setDescripcion] = useState();
   const [categoria, setCategoria] = useState();

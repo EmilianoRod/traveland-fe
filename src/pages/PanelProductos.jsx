@@ -1,12 +1,17 @@
+import { Sd, Update } from "@mui/icons-material";
 import { Box, Button, Container, Grid, Typography } from "@mui/material"
 import { DataGrid } from '@mui/x-data-grid';
 import { useEffect, useState } from "react";
 import NewProduct from "../components/NewProduct";
 import TravelCardAdmin from "../components/TravelCardAdmin";
+import UpdateProduct from "../components/UpdateProduct";
 
 function PanelProductos() {
   const [data, setData] = useState([]);
   const [newProduct, setNewProduct] = useState(false);
+  const [updateProduct, setUpdateProduct] = useState();
+  const [updateForm, setUpdateForm] = useState(false);
+  const [categoriasApi, setCategoriasApi] = useState([]);
 
   function handleFetch() {
     fetch("http://13.58.107.197/api/producto", { method: "GET" })
@@ -19,6 +24,7 @@ function PanelProductos() {
               nombre: card.nombre,
               descripcion: card.descripcion,
               imagenes: card.imagenes,
+              categorias: card.categorias
             };
           })
         );
@@ -26,10 +32,12 @@ function PanelProductos() {
   }
   useEffect(() => {
     handleFetch();
+    getCategorias();
   }, [data]);
 
   function handleDelete(id) {
-    fetch("http://13.58.107.197/api/producto/" + id, { method: "DELETE" })
+    fetch("http://13.58.107.197/api/producto/" + id, { method: "DELETE",
+    "Authorization": localStorage.getItem("token") })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -38,9 +46,13 @@ function PanelProductos() {
   }
 
   function handleUpdate(id) {
+    let producto = (data.filter((card) => card.id === id))[0];
+    console.log(producto)
     window.scrollTo(0, 0);
-    console.log(id)
+    setUpdateForm(!updateForm);
+    setUpdateProduct(producto);
   }
+
   function handleNewProduct() {
     setNewProduct(!newProduct);
   }
@@ -50,6 +62,7 @@ function PanelProductos() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("token"),
       },
       body: JSON.stringify(producto),
     })
@@ -58,6 +71,14 @@ function PanelProductos() {
         console.log(data);
       });
     setData([...data, producto]);
+  }
+
+  function getCategorias() {
+    fetch("http://13.58.107.197/api/categoria", { method: "GET" })
+    .then((response) => response.json())
+    .then((data) => {
+      setCategoriasApi(data)
+    })
   }
   
 
@@ -86,6 +107,7 @@ function PanelProductos() {
         AGREGAR PRODUCTO
       </Button>
       {newProduct ? <NewProduct addProduct={addNewProduct} /> : null}
+      {updateForm ? <UpdateProduct id={updateProduct.id} nombre={updateProduct.nombre} descripcion={updateProduct.descripcion} imagenes={updateProduct.imagenes} categorias={updateProduct.categorias} categoriasApi={categoriasApi} actualizado={(update)=>{setUpdateForm(update); handleFetch()}}/> : null}
       <Box
         sx={{
           border: 2,
