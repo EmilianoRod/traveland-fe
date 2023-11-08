@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, FormControl, Grid, InputLabel, NativeSelect, Typography } from "@mui/material";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -7,11 +7,13 @@ import CountrySelect from "../components/CountrySelect";
 import TravelCard from "../components/TravelCard";
 import { useEffect, useState } from "react";
 import Categoria from "../components/navbar/Categoria";
+import { CountryDropdown } from "react-country-region-selector";
 
 
 function Home() {
 
     const [randomCard, setRandomCard] = useState([]);
+    const [country, setCountry] = useState('');
 
     function handleFetch() {
         fetch("http://13.58.107.197/api/producto/random/10", { method: "GET" })
@@ -63,11 +65,17 @@ function Home() {
                 >
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DemoContainer components={["DatePicker"]}>
-                            <DatePicker label="Basic date picker" sx={{backgroundColor: "white"}} />
+                            <DatePicker label="Basic date picker" sx={{ backgroundColor: "white", height: '40px' }} />
                         </DemoContainer>
                     </LocalizationProvider>
-                    <CountrySelect />
-                    <Button variant="contained">Buscar</Button>
+                    
+                    <CountryDropdown
+                        value={country}
+                        onChange={(val) => setCountry(val)} 
+                        style={{height:'40px'}}
+                    />
+
+                    <Button variant="contained" sx={{backgroundColor: "white", color: "#005F6B"}}>Buscar</Button>
                 </Box>
             </Box>
 
@@ -82,16 +90,16 @@ function Home() {
                     >
                         <Grid container spacing={8} justifyContent="space-evenly">
                             <Grid item>
-                                <Categoria nombre={"Excursión con hospedaje"}/>
+                                <Categoria nombre={"Excursión con hospedaje"} />
                             </Grid>
                             <Grid item>
-                            <Categoria nombre={"Excursión guiada"}/>
+                                <Categoria nombre={"Excursión guiada"} />
                             </Grid>
                             <Grid item>
-                            <Categoria nombre={"Excursión Independiente"}/>
+                                <Categoria nombre={"Excursión Independiente"} />
                             </Grid>
                             <Grid item>
-                            <Categoria nombre={"Excursión Accesible"}/>
+                                <Categoria nombre={"Excursión Accesible"} />
                             </Grid>
                         </Grid>
                     </Box>

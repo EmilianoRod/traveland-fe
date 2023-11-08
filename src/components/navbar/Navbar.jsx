@@ -33,7 +33,7 @@ function Navbar({navArrayLinks}) {
                         <MenuIcon />
                     </IconButton>
 
-                    <img src="public/Logo.svg"></img>
+                    <img src="/Logo.svg"></img>
 
                     <Typography variant="h6" sx={{ flexGrow: 1 }}>
                         CADA VIAJE UNA NUEVA EXPERIENCIA
