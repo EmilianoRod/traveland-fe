@@ -2,7 +2,7 @@ import { SendToMobileRounded } from "@mui/icons-material";
 import { Box, Button, TextField, Autocomplete } from "@mui/material";
 import { useEffect, useState } from "react";
 import opcionesCategorias from "../assets/categorias";
-function NewProduct({ addProduct }) {
+function NewProduct({ addProduct, categoriasApi }) {
   const [nombre, setNombre] = useState();
   const [descripcion, setDescripcion] = useState();
   const [categoria, setCategoria] = useState();
@@ -16,6 +16,15 @@ function NewProduct({ addProduct }) {
     };
     addProduct(producto);
     console.log(producto);
+  }
+  useEffect(() => {
+    renderCategorias();
+  }, []);
+  function renderCategorias() {
+    const list = document.querySelector("#product_category");
+    categoriasApi.forEach((category) => {
+      list.innerHTML += `<option key="${category.id}" value="${category.id}">${category.nombre}</option>`;
+    });
   }
 
   return (
@@ -45,14 +54,17 @@ function NewProduct({ addProduct }) {
           label="Descripcion"
           variant="outlined"
         />
-        <Autocomplete
-          sx={{ margin: "1rem 0", width: "100%" }}
-          disablePortal
-          id="categoria"
-          onChange={(event, newValue) => setCategoria(newValue)}
-          options={opcionesCategorias()}
-          renderInput={(params) => <TextField {...params} label="Categoría" />}
-        />
+        <form>
+            <select
+              id="product_category"
+              style={{ margin: "1rem 0", width: "50%", padding: "1rem" }}
+              defaultValue="Selecciona la categoria"
+              
+            ></select>
+            <Button type="submit">+</Button>
+          </form>
+        <label htmlFor="file" style={{ margin: "1rem 0", width: "100%" }}>Imagen</label>
+        <input type={"file"} style={{ margin: "1rem 0", width: "100%" }}></input>
         <Button
           onClick={handleSubmit}
           sx={{

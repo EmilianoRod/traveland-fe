@@ -9,9 +9,9 @@ import {
 } from "@mui/material";
 import NavListDrawer from "./NavListDrawer";
 import { useState } from "react";
-
 import MenuIcon from "@mui/icons-material/Menu";
 import { NavLink } from "react-router-dom";
+
 
 function Navbar({ navArrayLinks }) {
   const [open, setOpen] = useState(false);

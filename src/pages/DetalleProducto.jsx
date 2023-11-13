@@ -1,25 +1,28 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Typography, Card, CardContent, CardMedia, Grid, Button, Box } from "@mui/material";
+import { Container, Typography, Card, CardContent, CardMedia, Grid, Button, Box, CircularProgress } from "@mui/material";
 
 function DetalleProducto() {
   const { id } = useParams();
   const [producto, setProducto] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`http://13.58.107.197/api/producto/${id}`)
+    fetch(`http://localhost:8081/api/producto/${id}`)
       .then((response) => response.json())
       .then((data) => {
+        setLoading(false);
         setProducto(data);
       });
   }, [id]);
 
   if (!producto) {
-    return <div>Cargando...</div>;
+    return <CircularProgress sx={{ marginTop: 20, marginBottom: 5, display: "block", marginLeft: "auto", marginRight: "auto" }} size={100}/>;
   }
 
   return (
     <Box display="flex" flexDirection="column" height="100%">
+
       <Card sx={{ flex: 1, display: "flex", marginTop: '95px', borderRadius: '15px', boxShadow: '0 4px 8px rgba(0,0,0,0.2)' }}>
         <CardMedia
           component="img"

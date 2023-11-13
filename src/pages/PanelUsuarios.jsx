@@ -1,4 +1,4 @@
-import { Box, Button, Pagination, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Pagination, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import User from "../components/User";
 import UserUpdate from "../components/UserUpdate";
@@ -7,16 +7,19 @@ function PanelUsuarios() {
   const [data, setData] = useState([]);
   const [renderUpdate, setRenderUpdate] = useState(false);
   const [updateUser, setUpdateUser] = useState({});
+  const [loading, setLoading] = useState(true);
 
   function handleFetch() {
-    fetch("http://13.58.107.197/api/usuario", {
+    fetch("http://localhost:8081/api/usuario", {
       method: "GET",
       headers: {
-        Authorization: localStorage.getItem("token")
+        "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("token"),
       }
     })
       .then((response) => response.json())
       .then((data) => {
+        setLoading(false);
         console.log(data);
         data.map((user) => {
           setData((rows) => [...rows, user]);
@@ -28,13 +31,15 @@ function PanelUsuarios() {
   }, []);
 
   function handleDelete(id) {
-    fetch("http://13.58.107.197/api/usuario/" + id, { method: "DELETE", headers: {
+    setLoading(true);
+    fetch("http://localhost:8081/api/usuario/" + id, { method: "DELETE", headers: {
       "Content-Type": "application/json",
       "Authorization": localStorage.getItem("token"),
     }})
       .then((response) => response.json())
       .then(() => {
         setData(data.filter((card) => card.id !== id));
+        setLoading(false);
       });
   }
   function handleUpdate(id) {
@@ -68,7 +73,7 @@ function PanelUsuarios() {
           apellido={updateUser.apellido}
           telefono={updateUser.telefono}
           email={updateUser.email}
-          rol={updateUser.roles[0].id}
+          rol={updateUser.rol}
         />
       ) : null}
       <Box
@@ -86,7 +91,11 @@ function PanelUsuarios() {
         <Typography sx={{ width: 50, fontWeight: "bold" }}>Apellido</Typography>
         <Typography sx={{ width: 50, fontWeight: "bold" }}>Telefono</Typography>
         <Typography sx={{ width: 50, fontWeight: "bold" }}>Email</Typography>
+        <Typography sx={{ width: 50, fontWeight: "bold" }}>Rol</Typography>
       </Box>
+      {loading ? (
+              <CircularProgress sx={{ marginTop: 10, display: "block", marginLeft: "auto", marginRight: "auto" }} size={100}/> 
+            ):null}
       {data.map((user) => {
         return (
           <User
@@ -98,6 +107,7 @@ function PanelUsuarios() {
             apellido={user.apellido}
             telefono={user.telefono}
             email={user.email}
+            rol={user.rol}
           />
         );
       })}

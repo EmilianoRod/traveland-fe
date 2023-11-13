@@ -1,5 +1,5 @@
 import { Sd, Update } from "@mui/icons-material";
-import { Box, Button, Container, Grid, Typography } from "@mui/material"
+import { Box, Button, CircularProgress, Container, Grid, Typography } from "@mui/material"
 import { DataGrid } from '@mui/x-data-grid';
 import { useEffect, useState } from "react";
 import NewProduct from "../components/NewProduct";
@@ -12,11 +12,13 @@ function PanelProductos() {
   const [updateProduct, setUpdateProduct] = useState();
   const [updateForm, setUpdateForm] = useState(false);
   const [categoriasApi, setCategoriasApi] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   function handleFetch() {
-    fetch("http://13.58.107.197/api/producto", { method: "GET" })
+    fetch("http://localhost:8081/api/producto", { method: "GET" })
       .then((response) => response.json())
       .then((data) => {
+        setLoading(false);
         setData(
           data.map((card) => {
             return {
@@ -33,10 +35,10 @@ function PanelProductos() {
   useEffect(() => {
     handleFetch();
     getCategorias();
-  }, [data]);
+  }, []);
 
   function handleDelete(id) {
-    fetch("http://13.58.107.197/api/producto/" + id, { method: "DELETE",
+    fetch("http://localhost:8081/api/producto/" + id, { method: "DELETE",
     "Authorization": localStorage.getItem("token") })
       .then((response) => response.json())
       .then((data) => {
@@ -58,7 +60,7 @@ function PanelProductos() {
   }
 
   function addNewProduct(producto) {
-    fetch("http://13.58.107.197/api/producto", {
+    fetch("http://localhost:8081/api/producto", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +76,7 @@ function PanelProductos() {
   }
 
   function getCategorias() {
-    fetch("http://13.58.107.197/api/categoria", { method: "GET" })
+    fetch("http://localhost:8081/api/categoria", { method: "GET" })
     .then((response) => response.json())
     .then((data) => {
       setCategoriasApi(data)
@@ -106,7 +108,7 @@ function PanelProductos() {
       >
         AGREGAR PRODUCTO
       </Button>
-      {newProduct ? <NewProduct addProduct={addNewProduct} /> : null}
+      {newProduct ? <NewProduct addProduct={addNewProduct} categoriasApi={categoriasApi}/> : null}
       {updateForm ? <UpdateProduct id={updateProduct.id} nombre={updateProduct.nombre} descripcion={updateProduct.descripcion} imagenes={updateProduct.imagenes} categorias={updateProduct.categorias} categoriasApi={categoriasApi} actualizado={(update)=>{setUpdateForm(update); handleFetch()}}/> : null}
       <Box
         sx={{
@@ -115,6 +117,9 @@ function PanelProductos() {
         }}
       >
         <Grid container spacing={8} justifyContent="space-evenly">
+        {loading ? (
+              <CircularProgress sx={{ marginTop: 10 }} size={100}/> 
+            ):null}
           {data.map((card) => {
             return (
               <Grid item key={card.id}>

@@ -1,4 +1,4 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography, CircularProgress } from "@mui/material";
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -11,11 +11,13 @@ import { useEffect, useState } from "react";
 
 function Home() {
   const [randomCard, setRandomCard] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   function handleFetch() {
-    fetch("http://13.58.107.197/api/producto/random/10", { method: "GET" })
+    fetch("http://localhost:8081/api/producto/random/10", { method: "GET" })
       .then((response) => response.json())
       .then((data) => {
+        setLoading(false);
         setRandomCard(
           data.map((card) => {
             return {
@@ -99,7 +101,11 @@ function Home() {
               padding: 2,
             }}
           >
+            
             <Grid container spacing={8} justifyContent="space-evenly">
+            {loading ? (
+              <CircularProgress sx={{ marginTop: 10 }} size={100}/> 
+            ):null}
               {randomCard.map((card) => {
                 return (
                   <Grid item key={card.id} >

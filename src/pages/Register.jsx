@@ -1,6 +1,7 @@
 import {
   Avatar,
   Button,
+  CircularProgress,
   Grid,
   Paper,
   TextField,
@@ -25,10 +26,12 @@ function Register() {
   const [validPhone, setValidPhone] = useState();
   const [validPassword, setValidPassword] = useState();
   const [validConfirmPassword, setValidConfirmPassword] = useState();
+  const [loading, setLoading] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
     setValidConfirmPassword("");
+    setLoading(true);
     const usuario = {
       nombre: nombre,
       apellido: apellido,
@@ -40,7 +43,7 @@ function Register() {
       setValidConfirmPassword("Las contraseñas no coinciden");
     }
     if (password !== "" && password === confirmPassword && !error) {
-      fetch("http://13.58.107.197/auth/registro", {
+      fetch("http://localhost:8081/auth/registro", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,8 +62,10 @@ function Register() {
           setTelefono("");
           setPassword("");
           setConfirmPassword("");
+          setLoading(false);
         }).catch((error) => {
             console.log(error);
+            setLoading(false);
             setNotSuccess("Hubo un error al crear la cuenta");
         })
     }
@@ -232,7 +237,11 @@ function Register() {
           ): null}
         </form>
       </Paper>
+      {loading ? (
+            <CircularProgress sx={{ display: "block", marginLeft: "auto", marginRight: "auto" }} size={50} />
+          ) : null}
     </Grid>
+    
   );
 }
 

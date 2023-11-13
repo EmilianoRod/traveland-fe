@@ -7,7 +7,7 @@ function TravelCard({ nombre, descripcion, id }) {
             <Card
                 sx={{
                     maxWidth: 200,
-                    maxHeight: 500,
+                    maxHeight: "auto",
                     transition: "0.2s",
                     "&:hover": {
                         transform: "scale(1.05)",

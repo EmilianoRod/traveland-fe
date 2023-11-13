@@ -1,49 +1,75 @@
-import { Autocomplete, Button, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Button,
+  CircularProgress,
+  TextField,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import { useEffect } from "react";
 import { useState } from "react";
 
-function UserUpdate({ id, nombre, apellido, telefono, email, rol, actualizado }) {
+function UserUpdate({
+  id,
+  nombre,
+  apellido,
+  telefono,
+  email,
+  rol,
+  actualizado,
+}) {
   const [nombreUsuario, setNombreUsuario] = useState(nombre);
   const [apellidoUsuario, setApellidoUsuario] = useState(apellido);
   const [telefonoUsuario, setTelefonoUsuario] = useState(telefono);
   const [emailUsuario, setEmailUsuario] = useState(email);
   const [idUsuario, setIdUsuario] = useState(id);
   const [rolUsuario, setRolUsuario] = useState(rol);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
+    setLoading(true);
     const usuario = {
       id: idUsuario,
       nombre: nombreUsuario,
       apellido: apellidoUsuario,
-      telefono: telefonoUsuario,
       email: emailUsuario,
-      roles: { id: document.getElementById("user_role").value }
+      telefono: telefonoUsuario,
+      rol: document.getElementById("user_role").value,
     };
     console.log(usuario);
-    fetch(`http://89.0.142.86/api/usuario/${idUsuario}`, {
+    fetch(`http://localhost:8081/api/usuario/${idUsuario}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": localStorage.getItem("token"),
+        Authorization: localStorage.getItem("token"),
       },
       body: JSON.stringify(usuario),
-    }).catch((error) => {
-      console.log(error);
-    });
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setLoading(false);
+        console.log(data);
+        setSuccess("Usuario modificado exitosamente");
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
   }
   function getRoles() {
-    const roles = [{id: 1, rol: "ADMIN"}, {id: 2, rol: "USER"}];
-    const listaRoles = document.querySelector('#user_role');
+    const roles = ["ADMIN", "USER"];
+    const listaRoles = document.querySelector("#user_role");
     roles.forEach((role) => {
-      console.log(role)
-      listaRoles.innerHTML += `<option value="${role.id}">${role.rol}</option>`
-    })}
+      console.log(role);
+      listaRoles.innerHTML += `<option value="${role}">${role}</option>`;
+    });
+  }
 
-    useEffect(() => {
-      getRoles();
-    }, []);
+  useEffect(() => {
+    getRoles();
+  }, []);
   return (
     <Box
       sx={{
@@ -74,6 +100,15 @@ function UserUpdate({ id, nombre, apellido, telefono, email, rol, actualizado })
       />
       <TextField
         sx={{ margin: "1rem 0", width: "100%" }}
+        id="email"
+        type={"text"}
+        value={emailUsuario}
+        onChange={(e) => setEmailUsuario(e.target.value)}
+        label="Email"
+        variant="outlined"
+      />
+      <TextField
+        sx={{ margin: "1rem 0", width: "100%" }}
         id="telefono"
         type={"text"}
         value={telefonoUsuario}
@@ -81,7 +116,12 @@ function UserUpdate({ id, nombre, apellido, telefono, email, rol, actualizado })
         label="Telefono"
         variant="outlined"
       />
-      <select style={{margin: "1rem 0", width: "50%", padding: "1rem"}} id="user_role" value={rolUsuario} onChange={(e) => setRolUsuario(e.target.value)}></select>
+      <select
+        style={{ margin: "1rem 0", width: "50%", padding: "1rem" }}
+        id="user_role"
+        value={rolUsuario}
+        onChange={(e) => setRolUsuario(e.target.value)}
+      ></select>
       <Button
         onClick={handleSubmit}
         sx={{
@@ -93,6 +133,19 @@ function UserUpdate({ id, nombre, apellido, telefono, email, rol, actualizado })
       >
         Modificar
       </Button>
+      {success ? (
+        <Typography
+          sx={{ display: "block", marginLeft: "auto", marginRight: "auto" }}
+        >
+          {success}
+        </Typography>
+      ): null}
+      {loading ? (
+        <CircularProgress
+          sx={{ display: "block", marginLeft: "auto", marginRight: "auto" }}
+          size={50}
+        />
+      ) : null}
     </Box>
   );
 }

@@ -53,18 +53,17 @@ function UpdateProduct({
     console.log(categoriasProducto);
   }, []);
 
-  function addCategoryToProduct() {
-      categoriasApi.forEach((category) => {
-        if (category.id == document.getElementById("product_category").value) {
-          setCategoriaSelected({
-            id: category.id,
-            nombre: category.nombre
-          })
-        }
-      })
+  function addCategoryToProduct(e) {
+    e.preventDefault();
+    const category = document.getElementById("product_category").value;
+    if (!categoriasProducto.includes(category)) {
+      setCategoriaProducto(...categoriasProducto,{
+        id: category.id,
+        nombre: category.nombre,
+      });
+    }
   }
 
- 
   return (
     <Box
       sx={{
@@ -95,24 +94,24 @@ function UpdateProduct({
           variant="outlined"
         />
         <Box>
-          <select
-            id="product_category"
-            style={{ margin: "1rem 0", width: "50%", padding: "1rem" }}
-            defaultValue="Selecciona la categoria"
-            onChange={(e) =>{
-              setCategoriaSelected({
-                id: e.target.value,
-                nombre: e.target.options[e.target.selectedIndex].text
-              })
-              console.log(categoriaSelected)}
-            }
-          ></select>
-          <Button>+</Button>
+          <form onSubmit={addCategoryToProduct}>
+            <select
+              id="product_category"
+              style={{ margin: "1rem 0", width: "50%", padding: "1rem" }}
+              defaultValue="Selecciona la categoria"
+              onChange={(e) => {
+                setCategoriaSelected({
+                  id: e.target.value,
+                  nombre: e.target.options[e.target.selectedIndex].text,
+                });
+                console.log(categoriaSelected);
+              }}
+            ></select>
+            <Button type="submit">+</Button>
+          </form>
+
           {categoriasProducto.map((category) => {
-            return(
-              <Button key={category.id}>{category.nombre}</Button>
-            )
-            
+            return <Button key={category.id}>{category.nombre}</Button>;
           })}
         </Box>
 

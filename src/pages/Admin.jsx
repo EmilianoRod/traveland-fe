@@ -43,6 +43,20 @@ function Admin() {
       >
         PANEL DE PRODUCTOS
       </Button>
+      <Button
+        sx={{
+          fontSize: "1.5rem",
+          border: 2,
+          borderRadius: 2,
+          margin: "1rem 1rem 1rem 0",
+          padding: "1rem",
+          width: "100%"
+        }}
+        href="/administracion/categorias"  
+      
+      >
+        PANEL DE CATEGORIAS
+      </Button>
     </Box>
   );
 }
