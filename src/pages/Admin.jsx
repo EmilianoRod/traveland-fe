@@ -6,8 +6,9 @@ function Admin() {
 
  function getRol(){
    if(localStorage.getItem("role") === "ADMIN"){
-     setRol(true);
+     setRol("ADMIN");
    }
+   
  }
  useEffect(() => {
    getRol();
@@ -68,6 +69,20 @@ function Admin() {
       
       >
         PANEL DE CATEGORIAS
+      </Button>
+      <Button
+        sx={{
+          fontSize: "1.5rem",
+          border: 2,
+          borderRadius: 2,
+          margin: "1rem 1rem 1rem 0",
+          padding: "1rem",
+          width: "100%"
+        }}
+        href="/administracion/caracteristicas"  
+      
+      >
+        PANEL DE CARACTERISTICAS
       </Button>
     </Box>
     ) : (

@@ -15,6 +15,8 @@ function DetalleProducto() {
   const { id } = useParams();
   const [producto, setProducto] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [imagenesUrl, setImagenesUrl] = useState([]);
+  const [caracteristicas, setCaracteristicas] = useState([]);
 
   useEffect(() => {
     fetch(`http://107.20.56.84/api/producto/${id}`)
@@ -23,6 +25,22 @@ function DetalleProducto() {
         setLoading(false);
         setProducto(data);
       });
+    fetch("http://107.20.56.84/api/producto/traerImagenes/" + id, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setImagenesUrl(data);
+      });
+    fetch("http://107.20.56.84/api/producto/caracteristica/" + id, {
+      method: "GET",
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      setCaracteristicas(data);
+    })
   }, [id]);
 
   if (!producto) {
@@ -42,7 +60,19 @@ function DetalleProducto() {
 
   return (
     <Box display="flex" flexDirection="column" height="100%">
-      <Typography sx={{ textAlign: "center", marginTop: "8rem", fontSize: "2rem" }} textAlign="center">Fecha de viaje: {producto.fechaInicio.slice(0, 10)} hasta {producto.fechaFinal.slice(0, 10)}</Typography>
+      <Typography
+        sx={{ textAlign: "center", marginTop: "8rem", fontSize: "2rem" }}
+        textAlign="center"
+      >
+        Fecha de viaje: {producto.fechaInicio.slice(0, 10)} hasta{" "}
+        {producto.fechaFinal.slice(0, 10)}
+      </Typography>
+      <Box sx={{ display: "flex", gap: 1, marginTop: "1rem" }}>
+        <Typography sx={{ fontWeight: "bold", fontSize: "1.5rem", backgroundColor: "#CCC", padding: "5px", borderRadius: "5px"}}>CARACTERISTICAS:</Typography>
+        {caracteristicas.map((caracteristica) => (
+          <Typography sx={{ fontWeight: "bold", fontSize: "1.5rem", backgroundColor: "#f5f5f5", padding: "5px", borderRadius: "5px", margin: "0 5px"}} key={caracteristica.id}>{caracteristica.nombre}</Typography>
+        ))}
+      </Box>
       <Card
         sx={{
           flex: 1,
@@ -55,7 +85,11 @@ function DetalleProducto() {
         <CardMedia
           component="img"
           sx={{ width: "85%", objectFit: "cover" }}
-          image="https://via.placeholder.com/345x140"
+          image={
+            imagenesUrl.length > 0
+              ? imagenesUrl[0]
+              : "https://via.placeholder.com/200x200"
+          }
           alt="Imagen del producto"
         />
         <CardContent

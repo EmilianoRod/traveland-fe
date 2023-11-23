@@ -13,6 +13,21 @@ import { Link } from "react-router-dom";
 
 function TravelCard({ nombre, fechaInicio, fechaFinal, descripcion, id, favoritos, change }) {
   const [isFav, setIsFav] = useState();
+  const [imagenesUrl, setImagenesUrl] = useState([]);
+
+  function handleFetch(){
+    fetch("http://107.20.56.84/api/producto/traerImagenes/" + id, {
+      method: "GET"
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data)
+      setImagenesUrl(data);
+    })
+  }
+  useEffect(() => {
+    handleFetch();
+  },[])
 
   useEffect(() => {
     if (favoritos != null)
@@ -54,7 +69,7 @@ function TravelCard({ nombre, fechaInicio, fechaFinal, descripcion, id, favorito
       <CardActionArea>
         <CardMedia
           component="img"
-          image="https://via.placeholder.com/200x200"
+          image={imagenesUrl.length > 0 ? imagenesUrl[0] : "https://via.placeholder.com/200x200"}
           height="200"
           alt="description"
         />

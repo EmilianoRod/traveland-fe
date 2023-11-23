@@ -1,13 +1,29 @@
 import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 
 function TravelCardAdmin({id, handleDelete, handleUpdate, nombre, descripcion, imagenes, categoria}) {
 
+    const [imagenesUrl, setImagenesUrl] = useState([]);
     function buttonDelete(){
         handleDelete(id);
     }
     function buttonUpdate(){
         handleUpdate(id);
     }
+    function handleFetch(){
+        fetch("http://107.20.56.84/api/producto/traerImagenes/" + id, {
+          method: "GET"
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data)
+          setImagenesUrl(data);
+        })
+      }
+      useEffect(() => {
+        handleFetch();
+      },[])
+  
 
     return (
         <Card
@@ -23,7 +39,7 @@ function TravelCardAdmin({id, handleDelete, handleUpdate, nombre, descripcion, i
             <CardActionArea>
                 <CardMedia
                     component="img"
-                    image="https://via.placeholder.com/200x200"
+                    image={imagenesUrl.length > 0 ? imagenesUrl[0] : "https://via.placeholder.com/200x200"}
                     height="200"
                     alt="description"
                 />

@@ -10,70 +10,75 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 
-function PanelCategorias() {
-  const [categorias, setCategorias] = useState([]);
-  const [nuevaCategoria, setNuevaCategoria] = useState();
+function PanelCaracteristicas() {
+  const [caracteristicas, setCaracteristicas] = useState([]);
+  const [nuevaCaracteristica, setNuevaCaracteristica] = useState();
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
   function fetchData() {
-    fetch("http://107.20.56.84/api/categoria", { method: "GET" })
-    .then((response) => response.json())
+    fetch("http://107.20.56.84/api/caracteristica", { method: "GET" })
+      .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setCategorias(data);
+        setCaracteristicas(data);
         setLoading(false);
       });
   }
-  function handleNuevaCategoria(e) {
+  function handleNuevaCaracteristica(e) {
     e.preventDefault();
-    const categoria = {
-      nombre: nuevaCategoria
+    const caracteristica = {
+      nombre: nuevaCaracteristica
     };
     setLoading(true);
-    fetch("http://107.20.56.84/api/categoria", {
+    fetch("http://107.20.56.84/api/caracteristica", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(categoria)
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.error(error);
-        setLoading(false);
-        setError("Error al crear la categoria");
-        setTimeout(() => {
-          setError("");
-        }, 5000);
-      })
-      .catch((error) => {
-        
-        setCategorias([...categorias, categoria]);
-        setLoading(false);
-        setSuccess(`Categoria ${nuevaCategoria} creada exitosamente`);
-        setTimeout(() => {
-          setSuccess("");
-        }, 5000);
-        setNuevaCategoria("");
-      });
+      body: JSON.stringify(caracteristica),
+    }).then((response) => {
+      response
+        .json()
+        .then((data) => {
+            console.error(error);
+            setLoading(false);
+            setError("Error al crear la caracteristica");
+            setTimeout(() => {
+              setError("");
+            }, 5000);
+        })
+        .catch((error) => {
+            setCaracteristicas([...caracteristicas, caracteristica]);
+          setLoading(false);
+          setSuccess(`Categoria ${nuevaCaracteristica} creada exitosamente`);
+          setTimeout(() => {
+            setSuccess("");
+          }, 5000);
+          setNuevaCaracteristica("");
+          console.log(data)
+          
+        });
+    });
   }
 
   function handleDelete(id, nombre) {
     const check = window.confirm(
-      `¿Seguro que quieres eliminar la categoria ${nombre}?`
+      `¿Seguro que quieres eliminar la caracteristica ${nombre}?`
     );
     if (check) {
       setLoading(true);
-      fetch("http://107.20.56.84/api/categoria/" + id, {
+      fetch("http://107.20.56.84/api/caracteristica/" + id, {
         method: "DELETE",
       })
         .then((response) => response.json())
         .then((data) => {
-          setCategorias([...categorias.filter((card) => card.id !== id)]);
+          setCaracteristicas([
+            ...caracteristicas.filter((card) => card.id !== id),
+          ]);
           setLoading(false);
-          setSuccess(`Categoria ${nombre} eliminada exitosamente`);
+          setSuccess(`Caracteristica ${nombre} eliminada exitosamente`);
           setTimeout(() => {
             setSuccess("");
           }, 5000);
@@ -81,7 +86,7 @@ function PanelCategorias() {
         .catch((error) => {
           console.error(error);
           setLoading(false);
-          setError("Error al eliminar la categoria " + nombre);
+          setError("Error al eliminar la caracteristica " + nombre);
           setTimeout(() => {
             setError("");
           }, 5000);
@@ -103,26 +108,26 @@ function PanelCategorias() {
       }}
     >
       <Button href="/administracion">Volver al Menú de Administracion</Button>
-      <Typography variant="h2">CATEGORIAS</Typography>
+      <Typography variant="h2">CARACTERISTICAS</Typography>
 
-      <Typography>Agregar una nueva categoria</Typography>
+      <Typography>Agregar una nueva caracteristica</Typography>
       <TextField
         sx={{ margin: "1rem 0", width: "100%" }}
         id="categoria"
         type={"text"}
-        value={nuevaCategoria}
-        onChange={(e) => setNuevaCategoria(e.target.value)}
-        label="Nombre de la categoria"
+        value={nuevaCaracteristica}
+        onChange={(e) => setNuevaCaracteristica(e.target.value)}
+        label="Nombre de la caracteristica"
         variant="outlined"
       />
       <Button
-        onClick={handleNuevaCategoria}
+        onClick={handleNuevaCaracteristica}
         sx={{ backgroundColor: "green", color: "white" }}
       >
-        AGREGAR CATEGORIA
+        AGREGAR CARACTERISTICA
       </Button>
       <Typography sx={{ mt: 2, mb: 2, color: "red", fontWeight: "bold" }}>
-        Haz click en una categoria para eliminarla
+        Haz click en una caracteristica para eliminarla
       </Typography>
       {loading ? (
         <CircularProgress
@@ -165,9 +170,9 @@ function PanelCategorias() {
           {error}
         </Typography>
       ) : null}
-      {categorias.map((categoria) => (
+      {caracteristicas.map((caracteristica) => (
         <Typography
-          onClick={() => handleDelete(categoria.id, categoria.nombre)}
+          onClick={() => handleDelete(caracteristica.id, caracteristica.nombre)}
           sx={[
             {
               "&:hover": {
@@ -184,13 +189,13 @@ function PanelCategorias() {
               textAlign: "center",
             },
           ]}
-          key={categoria.id}
+          key={caracteristica.id}
         >
-          {categoria.nombre}
+          {caracteristica.nombre}
         </Typography>
       ))}
     </Box>
   );
 }
 
-export default PanelCategorias;
+export default PanelCaracteristicas;

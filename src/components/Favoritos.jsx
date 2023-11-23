@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Link, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
 import TravelCard from "./TravelCard";
@@ -70,6 +70,9 @@ function Favoritos() {
         }}
       >
         <Typography variant="h4">Tus paseos favoritos</Typography>
+        {favoritos.length == 0 ? (
+          <Link sx={{ textDecoration: "none" }} href="/"  variant="h5">No tienes paseos favoritos, agrega alguno!</Link>
+        ) : null}
         <Grid container spacing={8} justifyContent="space-evenly" pt={15}>
           {favoritos.map((card) => {
             return (

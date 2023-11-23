@@ -22,6 +22,7 @@ import { useState } from "react";
 import React from "react";
 import { useEffect } from "react";
 import UsuarioAdmin from "./pages/UsuarioAdmin";
+import PanelCaracteristicas from "./pages/PanelCaracteristicas";
 
 export const UserContext = React.createContext();
 
@@ -105,6 +106,10 @@ function App() {
             <Route
               path="/administracion/categorias"
               element={<PanelCategorias />}
+            />
+            <Route
+              path="/administracion/caracteristicas"
+              element={<PanelCaracteristicas />}
             />
             <Route path="/detalleproducto/:id" element={<DetalleProducto />} />
           </Routes>

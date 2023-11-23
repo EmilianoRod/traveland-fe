@@ -2,10 +2,11 @@ import { SendToMobileRounded } from "@mui/icons-material";
 import { Box, Button, TextField, Autocomplete, CircularProgress, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import opcionesCategorias from "../assets/categorias";
-function NewProduct({ addProduct, categoriasApi }) {
+function NewProduct({ addProduct, categoriasApi, caracteristicasApi }) {
   const [nombre, setNombre] = useState();
   const [descripcion, setDescripcion] = useState();
   const [categoria, setCategoria] = useState([]);
+  const [caracteristica, setCaracteristica] = useState([]);
   const [fechaInicio, setFechaInicio] = useState();
   const [fechaFinal, setFechafinal] = useState();
   const [imagenes, setImagenes] = useState();
@@ -19,6 +20,7 @@ function NewProduct({ addProduct, categoriasApi }) {
       nombre: nombre,
       descripcion: descripcion,
       categorias: categoria,
+      caracteristicas: caracteristica,
       fechaInicio: fechaInicio,
       fechaFinal: fechaFinal
     }
@@ -30,16 +32,16 @@ function NewProduct({ addProduct, categoriasApi }) {
       type: "multipart/form-data"
     }));
     console.log(producto.getAll("productInfo"));
-    fetch("http://localhost:8080/api/producto", {
+    fetch("http://107.20.56.84/api/producto", {
       method: "POST",
       body: producto,
-
     })
     .then((response) => response.json())
     .then((data) => {
       console.log(data)
       setLoading(false)
       setSuccess("Producto creado exitosamente")
+      addProduct(true)
       setTimeout(() => {
         setSuccess("");
       }, 5000);
@@ -47,11 +49,18 @@ function NewProduct({ addProduct, categoriasApi }) {
   }
   useEffect(() => {
     renderCategorias();
+    renderCaracteristicas();
   }, []);
   function renderCategorias() {
     const list = document.querySelector("#product_category");
     categoriasApi.forEach((category) => {
       list.innerHTML += `<option key="${category.id}" value="${category.id}">${category.nombre}</option>`;
+    });
+  }
+  function renderCaracteristicas() {
+    const list = document.querySelector("#product_caracteristica");
+    caracteristicasApi.forEach((caracteristica) => {
+      list.innerHTML += `<option key="${caracteristica.id}" value="${caracteristica.id}">${caracteristica.nombre}</option>`;
     });
   }
 
@@ -70,6 +79,17 @@ function NewProduct({ addProduct, categoriasApi }) {
       }]
     )
     console.log(categoria)
+  }
+  function handleCaracteristica(){
+    const caracteristicaSelec = caracteristicasApi.filter((caracteristica) => caracteristica.id == document.querySelector("#product_caracteristica").value)
+    setCaracteristica([
+      ...caracteristica,
+      {
+        id: caracteristicaSelec[0].id,
+        nombre: caracteristicaSelec[0].nombre
+      }]
+    )
+    console.log(caracteristica)
   }
 
   return (
@@ -98,6 +118,8 @@ function NewProduct({ addProduct, categoriasApi }) {
           onChange={(e) => setDescripcion(e.target.value)}
           label="Descripcion"
           variant="outlined"
+          multiline
+          maxRows={4}
         />
         <label htmlFor="fechaInicio">Fecha de inicio:</label>
         <input id="fechaInicio" style={{ margin: "1rem 0", width: "50%", display: "block", padding: "1rem" }} type={"date"} onChange={(e) => setFechaInicio(`${e.target.value}T00:00`)}></input>
@@ -113,6 +135,19 @@ function NewProduct({ addProduct, categoriasApi }) {
             <Button onClick={()=>{handleCategoria()}}>+</Button>
           {categoria.map((category) => {
             return <p style={{display: "inline", backgroundColor: "green", padding: "1rem",margin: "0.25rem", color: "white"}} key={category.id}>{category.nombre}</p>;
+          })}
+            
+          </form>
+          <form>
+            <select
+              id="product_caracteristica"
+              style={{ margin: "1rem 0", width: "50%", padding: "1rem" }}
+              defaultValue="Selecciona la caracteristica"
+              
+            ></select>
+            <Button onClick={()=>{handleCaracteristica()}}>+</Button>
+          {caracteristica.map((caracteristica) => {
+            return <p style={{display: "inline", backgroundColor: "green", padding: "1rem",margin: "0.25rem", color: "white"}} key={caracteristica.id}>{caracteristica.nombre}</p>;
           })}
             
           </form>

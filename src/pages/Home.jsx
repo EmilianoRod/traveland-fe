@@ -110,7 +110,7 @@ function Home() {
         fechafinal.slice(0, 4);
       console.log(desde, hasta);
       fetch(
-        `http://localhost:8080/api/producto/filtrarFecha?fechaInicio=${desde}&fechaFin=${hasta}`,
+        `http://107.20.56.84/api/producto/filtrarFecha?fechaInicio=${desde}&fechaFin=${hasta}`,
         {
           method: "GET",
         }

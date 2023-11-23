@@ -12,6 +12,7 @@ function PanelProductos() {
   const [updateProduct, setUpdateProduct] = useState();
   const [updateForm, setUpdateForm] = useState(false);
   const [categoriasApi, setCategoriasApi] = useState([]);
+  const [caracteristicasApi, setCaracteristicasApi] = useState([]);
   const [loading, setLoading] = useState(true);
 
   function handleFetch() {
@@ -35,6 +36,7 @@ function PanelProductos() {
   useEffect(() => {
     handleFetch();
     getCategorias();
+    getCaracteristicas();
   }, []);
 
   function handleDelete(id) {
@@ -59,7 +61,9 @@ function PanelProductos() {
     setNewProduct(!newProduct);
   }
 
-  function addNewProduct(producto) {
+  function addNewProduct(productoAgregado) {
+    if(productoAgregado)
+    {handleFetch();}
     /*
     fetch("http://localhost:8081/api/producto", {
       method: "POST",
@@ -75,7 +79,6 @@ function PanelProductos() {
       });
     setData([...data, producto]);
     */
-   console.log(producto.get("imagenes"))
   }
 
   function getCategorias() {
@@ -83,6 +86,13 @@ function PanelProductos() {
     .then((response) => response.json())
     .then((data) => {
       setCategoriasApi(data)
+    })
+  }
+  function getCaracteristicas(){
+    fetch("http://107.20.56.84/api/caracteristica", { method: "GET" })
+    .then((response) => response.json())
+    .then((data) => {
+      setCaracteristicasApi(data)
     })
   }
   
@@ -111,7 +121,7 @@ function PanelProductos() {
       >
         AGREGAR PRODUCTO
       </Button>
-      {newProduct ? <NewProduct addProduct={addNewProduct} categoriasApi={categoriasApi}/> : null}
+      {newProduct ? <NewProduct addProduct={addNewProduct} categoriasApi={categoriasApi} caracteristicasApi={caracteristicasApi}/> : null}
       {updateForm ? <UpdateProduct id={updateProduct.id} nombre={updateProduct.nombre} descripcion={updateProduct.descripcion} imagenes={updateProduct.imagenes} categorias={updateProduct.categorias} categoriasApi={categoriasApi} actualizado={(update)=>{setUpdateForm(update); handleFetch()}}/> : null}
       <Box
         sx={{

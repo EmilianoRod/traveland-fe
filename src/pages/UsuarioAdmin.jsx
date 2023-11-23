@@ -67,7 +67,7 @@ function UsuarioAdmin() {
       {render ? (
         <Box>
         <Typography variant="h3">
-          Bienvenido, {data.nombre} {data.apellido}
+          Bienvenid@, {data.nombre} {data.apellido}
         </Typography>
         <Box sx={{ mt: 5, mb: 5 }}>
           <Typography variant="h4" sx={{ mb: 2, mt: 5 }}>
