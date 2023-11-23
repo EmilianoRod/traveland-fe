@@ -13,6 +13,7 @@ import Favoritos from "../components/Favoritos";
 function UsuarioAdmin() {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState("");
+  const [render, setRender] = useState(false);
 
   function handleFetch() {
     setLoading(true);
@@ -22,6 +23,7 @@ function UsuarioAdmin() {
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
+        setRender(true);
         console.log(data);
         setData(data);
       });
@@ -62,7 +64,8 @@ function UsuarioAdmin() {
           size={50}
         />
       ) : null}
-      <Box>
+      {render ? (
+        <Box>
         <Typography variant="h3">
           Bienvenido, {data.nombre} {data.apellido}
         </Typography>
@@ -77,6 +80,8 @@ function UsuarioAdmin() {
           <Favoritos />
         </Box>
       </Box>
+      ): null}
+      
     </Grid>
   );
 }

@@ -46,7 +46,7 @@ function Navbar({ navArrayLinks }) {
             {localStorage.getItem("email") ? (
               <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center"}}>
                 <Typography variant="h6" >
-                  Bienvenido, {localStorage.getItem("email")} !
+                  Bienvenid@, {localStorage.getItem("email")} !
                 </Typography>
                 <AccountCircleIcon />
               </div>
