@@ -5,13 +5,14 @@ import { useNavigate } from "react-router-dom";
 
 function HandleLogout(){
 
-  const navigate = useNavigate();
 
 
     function handleLogout(){
-        localStorage.removeItem("token");
-        localStorage.removeItem("email");
+        const check = window.confirm("Seguro que desea cerrar sesión?")
+        if (check){
+            localStorage.clear();
         window.location.replace("/login");
+        }
     }
 
     useEffect(()=>{

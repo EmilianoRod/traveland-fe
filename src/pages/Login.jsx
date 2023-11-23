@@ -29,10 +29,10 @@ function Login() {
     };
     if (!error) {
       setNotSuccess("");
-      fetch("http://localhost:8081/auth/login", {
+      fetch("http://107.20.56.84/auth/login", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(usuario),
       })
@@ -43,6 +43,8 @@ function Login() {
           if (data.token) {
             localStorage.setItem("token", "Bearer " + data.token);
             localStorage.setItem("email", data.email);
+            localStorage.setItem("id", data.id);
+            localStorage.setItem("role", data.rol);
             window.location.replace("/");
           }else{
             setNotSuccess("Credenciales incorrectas");

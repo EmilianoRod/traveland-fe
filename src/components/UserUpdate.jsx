@@ -38,7 +38,7 @@ function UserUpdate({
       rol: document.getElementById("user_role").value,
     };
     console.log(usuario);
-    fetch(`http://localhost:8081/api/usuario/${idUsuario}`, {
+    fetch(`http://107.20.56.84/api/usuario/${idUsuario}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

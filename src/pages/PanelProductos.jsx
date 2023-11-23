@@ -15,7 +15,7 @@ function PanelProductos() {
   const [loading, setLoading] = useState(true);
 
   function handleFetch() {
-    fetch("http://localhost:8081/api/producto", { method: "GET" })
+    fetch("http://107.20.56.84/api/producto", { method: "GET" })
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
@@ -38,7 +38,7 @@ function PanelProductos() {
   }, []);
 
   function handleDelete(id) {
-    fetch("http://localhost:8081/api/producto/" + id, { method: "DELETE",
+    fetch("http://107.20.56.84/api/producto/" + id, { method: "DELETE",
     "Authorization": localStorage.getItem("token") })
       .then((response) => response.json())
       .then((data) => {
@@ -60,6 +60,7 @@ function PanelProductos() {
   }
 
   function addNewProduct(producto) {
+    /*
     fetch("http://localhost:8081/api/producto", {
       method: "POST",
       headers: {
@@ -73,10 +74,12 @@ function PanelProductos() {
         console.log(data);
       });
     setData([...data, producto]);
+    */
+   console.log(producto.get("imagenes"))
   }
 
   function getCategorias() {
-    fetch("http://localhost:8081/api/categoria", { method: "GET" })
+    fetch("http://107.20.56.84/api/categoria", { method: "GET" })
     .then((response) => response.json())
     .then((data) => {
       setCategoriasApi(data)

@@ -2,10 +2,22 @@ import { Box, Button, Typography, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 
 function Admin() {
+ const [rol, setRol] = useState();
+
+ function getRol(){
+   if(localStorage.getItem("role") === "ADMIN"){
+     setRol(true);
+   }
+ }
+ useEffect(() => {
+   getRol();
+ }, []);
  
 
   return (
-    <Box
+    <>
+    {rol == "ADMIN" ? (
+      <Box
       sx={{
         width: "100%",
         height: "auto",
@@ -58,6 +70,12 @@ function Admin() {
         PANEL DE CATEGORIAS
       </Button>
     </Box>
+    ) : (
+      <Box>
+        <Typography sx={{ textAlign: "center", marginTop: "10rem" }} variant="h2">No tienes permisos para acceder.</Typography>
+      </Box>
+    )}
+    </>
   );
 }
 

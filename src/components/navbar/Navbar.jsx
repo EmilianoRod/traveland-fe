@@ -11,7 +11,7 @@ import NavListDrawer from "./NavListDrawer";
 import { useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { NavLink } from "react-router-dom";
-
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 function Navbar({ navArrayLinks }) {
   const [open, setOpen] = useState(false);
@@ -38,11 +38,19 @@ function Navbar({ navArrayLinks }) {
           <a href="/">
             <img src="/Logo.svg"></img>
           </a>
-        
+
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             CADA VIAJE UNA NUEVA EXPERIENCIA
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
+            {localStorage.getItem("email") ? (
+              <div style={{ display: "flex", justifyContent: "space-evenly", alignItems: "center"}}>
+                <Typography variant="h6" >
+                  Bienvenido, {localStorage.getItem("email")} !
+                </Typography>
+                <AccountCircleIcon />
+              </div>
+            ) : null}
             {navArrayLinks.map((item) => (
               <Button
                 color="inherit"

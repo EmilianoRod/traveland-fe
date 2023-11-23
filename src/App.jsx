@@ -21,6 +21,7 @@ import DetalleProducto from "./pages/DetalleProducto";
 import { useState } from "react";
 import React from "react";
 import { useEffect } from "react";
+import UsuarioAdmin from "./pages/UsuarioAdmin";
 
 export const UserContext = React.createContext();
 
@@ -28,7 +29,7 @@ export const UserContext = React.createContext();
 
 const navArrayLinks = [
   {
-    title: "Home",
+    title: "Inicio",
     path: "/",
     icon: <InboxIcon />,
   },
@@ -45,7 +46,17 @@ const navArrayLinks = [
 ];
 const navLogout = [
   {
-    title: "Logout",
+    title: "Inicio",
+    path: "/",
+    icon: <InboxIcon />,
+  },
+  {
+    title: "Panel de usuario",
+    path: "/usuario",
+    icon: <DraftsIcon />,
+  },
+  {
+    title: "Cerrar sesión",
     path: "/logout",
     icon: <Logout />,
   }
@@ -82,6 +93,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/administracion" element={<Admin />} />
             <Route path="/logout" element={<HandleLogout />} />
+            <Route path="/usuario" element={<UsuarioAdmin />} />
             <Route
               path="/administracion/productos"
               element={<PanelProductos />}

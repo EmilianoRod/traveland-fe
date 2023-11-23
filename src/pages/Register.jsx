@@ -43,7 +43,7 @@ function Register() {
       setValidConfirmPassword("Las contraseñas no coinciden");
     }
     if (password !== "" && password === confirmPassword && !error) {
-      fetch("http://localhost:8081/auth/registro", {
+      fetch("http://107.20.56.84/auth/registro", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
