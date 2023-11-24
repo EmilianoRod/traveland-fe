@@ -14,6 +14,7 @@ function PanelUsuarios() {
   const [updateUser, setUpdateUser] = useState({});
   const [loading, setLoading] = useState(true);
 
+  // Se realiza el fetch para traer todos los usuarios
   function handleFetch() {
     fetch("http://107.20.56.84/api/usuario", {
       method: "GET",
@@ -35,6 +36,7 @@ function PanelUsuarios() {
     handleFetch();
   }, []);
 
+  // Se realiza el fetch para borrar un usuario
   function handleDelete(id) {
     setLoading(true);
     fetch("http://107.20.56.84/api/usuario/" + id, {
@@ -50,6 +52,7 @@ function PanelUsuarios() {
         setLoading(false);
       });
   }
+  // Se realiza el fetch para actualizar un usuario
   function handleUpdate(id) {
     let usuario = data.filter((card) => card.id === id)[0];
     console.log(usuario);

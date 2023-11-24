@@ -13,11 +13,11 @@ function UpdateProduct({
   const [idProducto, setIdProducto] = useState(id);
   const [nombreProducto, setNombreProducto] = useState(nombre);
   const [descripcionProducto, setDescripcionProducto] = useState(descripcion);
-  //   const [categoriaProducto, setCategoriaProducto] = useState();
   const [imagenesProducto, setImagenesProducto] = useState(imagenes);
   const [categoriasProducto, setCategoriaProducto] = useState(categorias);
   const [categoriaSelected, setCategoriaSelected] = useState({});
 
+  // Se arma el objeto para el put y actualizar el producto
   function handleSubmit(e) {
     e.preventDefault();
     const update = {
@@ -42,6 +42,7 @@ function UpdateProduct({
         }) */
   }
 
+  // Se renderizan las categorias
   function renderCategorias() {
     const list = document.querySelector("#product_category");
     categoriasApi.forEach((category) => {
@@ -53,6 +54,7 @@ function UpdateProduct({
     console.log(categoriasProducto);
   }, []);
 
+  // Se agrega una categoria
   function addCategoryToProduct(e) {
     e.preventDefault();
     const category = document.getElementById("product_category").value;

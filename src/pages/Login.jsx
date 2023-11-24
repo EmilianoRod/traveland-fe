@@ -20,6 +20,7 @@ function Login() {
   const [notSuccess, setNotSuccess] = useState();
   const navigate = useNavigate();
 
+  // Se realiza el fetch para realizar el login pasando el email y el password
   function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -41,6 +42,7 @@ function Login() {
           console.log(data);
           setLoading(false);
           if (data.token) {
+            // Si existe el token, se guardan los datos obtenidos en el localStorage
             localStorage.setItem("token", "Bearer " + data.token);
             localStorage.setItem("email", data.email);
             localStorage.setItem("id", data.id);

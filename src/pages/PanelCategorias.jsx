@@ -17,6 +17,7 @@ function PanelCategorias() {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
+    // Se realiza el fetch para traer todas las categorias
   function fetchData() {
     fetch("http://107.20.56.84/api/categoria", { method: "GET" })
     .then((response) => response.json())
@@ -26,12 +27,16 @@ function PanelCategorias() {
         setLoading(false);
       });
   }
+  // Se arma el objeto para enviar al backend y crear una nueva categoria
+
   function handleNuevaCategoria(e) {
     e.preventDefault();
     const categoria = {
       nombre: nuevaCategoria
     };
     setLoading(true);
+    // Se realiza el fetch para crear una nueva categoria
+
     fetch("http://107.20.56.84/api/categoria", {
       method: "POST",
       headers: {
@@ -59,6 +64,7 @@ function PanelCategorias() {
         setNuevaCategoria("");
       });
   }
+  // Se realiza consulta y se realiza el fetch para borrar una categoria
 
   function handleDelete(id, nombre) {
     const check = window.confirm(

@@ -2,10 +2,13 @@ import { Typography, Button } from "@mui/material";
 import { Box } from "@mui/system";
 
 function User({handleDelete, handleUpdate, id, nombre, apellido, telefono, email, rol}){
+
+    // Se envia el id del usuario al componente Panel de Usuarios para realizar el DELETE
     function buttonDelete(){
         console.log(id);
         handleDelete(id);
     }
+    // Se envia el id del usuario al componente Panel de Usuarios para realizar el PUT
     function buttonUpdate() {
         console.log(id);
         handleUpdate(id);

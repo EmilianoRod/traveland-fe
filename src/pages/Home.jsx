@@ -29,6 +29,7 @@ function Home() {
   const [filtrados, setFiltrados] = useState();
   const [error, setError] = useState();
 
+  // Se realiza el fetch para traer 10 cards aleatorias
   function handleFetch() {
     fetch("http://107.20.56.84/api/producto/random/10", { method: "GET" })
       .then((response) => response.json())
@@ -45,7 +46,7 @@ function Home() {
           })
         );
       });
-
+  // Se realiza el fetch para traer las categorias
     fetch("http://107.20.56.84/api/categoria", { method: "GET" })
       .then((response) => response.json())
       .then((data) => {
@@ -53,6 +54,7 @@ function Home() {
         console.log(data);
       });
   }
+  // Se realiza el fetch para traer los favoritos del usuario
   function getFavs() {
     if (localStorage.getItem("id") != null) {
       fetch(
@@ -77,11 +79,12 @@ function Home() {
     getFavs();
   }, []);
 
+  // Se obtiene de la travelCard si se actualizo el producto a favorito y si es así vuelve a renderizar los favoritos
   function handleChange(changed) {
     console.log(changed);
     getFavs();
   }
-
+  // Se realiza el fetch para traer los productos segun la categoria
   function handleCategoria(id) {
     fetch("http://107.20.56.84/api/categoria/products/" + id, {
       method: "GET",
@@ -93,7 +96,9 @@ function Home() {
       });
   }
 
+  // Se realiza el fetch para traer los productos filtrados por fecha
   function handleFiltrarFecha() {
+    // Si se seleccionaron ambas fechas y no son nulas, se arma el objeto para enviarle a la API las dos fechas con formato dd/mm/aaaa
     if (fechaInicial != null && fechafinal != null) {
       setLoadingFiltrados(true);
       const desde =
@@ -109,6 +114,7 @@ function Home() {
         "/" +
         fechafinal.slice(0, 4);
       console.log(desde, hasta);
+      // Se realiza el fetch para traer los productos filtrados
       fetch(
         `http://107.20.56.84/api/producto/filtrarFecha?fechaInicio=${desde}&fechaFin=${hasta}`,
         {

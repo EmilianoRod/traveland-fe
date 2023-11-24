@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 function HandleLogout(){
 
 
-
+    // Se consulta si se desea cerrar sesión
     function handleLogout(){
         const check = window.confirm("Seguro que desea cerrar sesión?")
         if (check){

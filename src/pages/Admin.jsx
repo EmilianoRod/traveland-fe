@@ -4,12 +4,11 @@ import { useEffect, useState } from "react";
 function Admin() {
  const [rol, setRol] = useState();
 
- function getRol(){
+  // Se obtiene el rol del usuario de localStorage para mostrar el panel correspondiente
    if(localStorage.getItem("role") === "ADMIN"){
      setRol("ADMIN");
    }
    
- }
  useEffect(() => {
    getRol();
  }, []);
@@ -92,6 +91,6 @@ function Admin() {
     )}
     </>
   );
-}
+
 
 export default Admin;

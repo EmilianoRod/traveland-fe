@@ -15,6 +15,7 @@ function UsuarioAdmin() {
   const [data, setData] = useState("");
   const [render, setRender] = useState(false);
 
+  // Se realiza el fetch para traer los datos del usuario si existe en el localStorage
   function handleFetch() {
     setLoading(true);
     fetch("http://107.20.56.84/api/usuario/" + localStorage.getItem("id"), {
@@ -29,6 +30,7 @@ function UsuarioAdmin() {
       });
   }
 
+  // Se valida que exista un token, si este no existe se muestra un mensaje que debe iniciar sesión para ver el panel y se redirecciona a la pagina de login
   if (!localStorage.getItem("token")) {
     setTimeout(() => {
       window.location.replace("/login");

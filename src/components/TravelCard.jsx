@@ -15,6 +15,7 @@ function TravelCard({ nombre, fechaInicio, fechaFinal, descripcion, id, favorito
   const [isFav, setIsFav] = useState();
   const [imagenesUrl, setImagenesUrl] = useState([]);
 
+  //Se realiza el fetch para traer la imagen del producto
   function handleFetch(){
     fetch("http://107.20.56.84/api/producto/traerImagenes/" + id, {
       method: "GET"
@@ -25,6 +26,7 @@ function TravelCard({ nombre, fechaInicio, fechaFinal, descripcion, id, favorito
       setImagenesUrl(data);
     })
   }
+  //Se realiza el fetch al iniciar el componente
   useEffect(() => {
     handleFetch();
   },[])
@@ -34,6 +36,7 @@ function TravelCard({ nombre, fechaInicio, fechaFinal, descripcion, id, favorito
       setIsFav(favoritos.map((fav) => fav.id).includes(id));
   })
 
+  // Se realiza el fetch para agregar un favorito
   function handleAddFav(id) {
     console.log(id);
     fetch("http://107.20.56.84/api/usuario/addfav/" + localStorage.getItem("id"), {
@@ -85,7 +88,7 @@ function TravelCard({ nombre, fechaInicio, fechaFinal, descripcion, id, favorito
         <Link sx={{ textDecoration: "none" }} to={`/detalleproducto/${id}`}>
           <Button>VER MÁS..</Button>
         </Link>
-        {window.location.pathname === "/" ? <Button onClick={() => handleAddFav(id)}>{isFav ? "ES FAV" : "AGREGAR FAV"}</Button> : null}
+        {window.location.pathname === "/" && localStorage.getItem("token") ? <Button onClick={() => handleAddFav(id)}>{isFav ? "ES FAV" : "AGREGAR FAV"}</Button> : null}
        
       </CardActions>
     </Card>

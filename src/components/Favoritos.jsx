@@ -7,6 +7,7 @@ function Favoritos() {
   const [favoritos, setFavoritos] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // Realizar el fetch a los favoritos si el usuario ha iniciado sesion y esta en el localStorage
   function handleFetch() {
     if (localStorage.getItem("id") != null) {
       fetch(
@@ -26,6 +27,7 @@ function Favoritos() {
     }
   }
 
+  // Eliminar un favorito
   function handleDesfav(id) {
     const check = window.confirm("¿Deseas quitar de favoritos el paseo?");
     if (check) {

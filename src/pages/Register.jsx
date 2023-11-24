@@ -28,10 +28,12 @@ function Register() {
   const [validConfirmPassword, setValidConfirmPassword] = useState();
   const [loading, setLoading] = useState(false);
 
+  // Se realiza el fetch para crear una nueva cuenta
   function handleSubmit(e) {
     e.preventDefault();
     setValidConfirmPassword("");
     setLoading(true);
+    // Se crea el objeto con los datos del usuario
     const usuario = {
       nombre: nombre,
       apellido: apellido,
@@ -39,9 +41,11 @@ function Register() {
       telefono: telefono,
       password: password,
     };
+    // Se realizan validaciones y se pasa el error en caso que este exista
     if (password !== confirmPassword) {
       setValidConfirmPassword("Las contraseñas no coinciden");
     }
+    // Si el password no es vacio, y coincide con la confirmacion, y no existen errores, se crea la cuenta
     if (password !== "" && password === confirmPassword && !error) {
       fetch("http://107.20.56.84/auth/registro", {
         method: "POST",

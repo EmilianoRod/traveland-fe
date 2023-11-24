@@ -1,6 +1,5 @@
-import { Sd, Update } from "@mui/icons-material";
-import { Box, Button, CircularProgress, Container, Grid, Typography } from "@mui/material"
-import { DataGrid } from '@mui/x-data-grid';
+
+import { Box, Button, CircularProgress, Grid, Typography } from "@mui/material"
 import { useEffect, useState } from "react";
 import NewProduct from "../components/NewProduct";
 import TravelCardAdmin from "../components/TravelCardAdmin";
@@ -15,6 +14,7 @@ function PanelProductos() {
   const [caracteristicasApi, setCaracteristicasApi] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Se realiza el fetch para traer todos los productos
   function handleFetch() {
     fetch("http://107.20.56.84/api/producto", { method: "GET" })
       .then((response) => response.json())
@@ -39,6 +39,7 @@ function PanelProductos() {
     getCaracteristicas();
   }, []);
 
+  // Se realiza el fetch para eliminar un producto
   function handleDelete(id) {
     fetch("http://107.20.56.84/api/producto/" + id, { method: "DELETE",
     "Authorization": localStorage.getItem("token") })
@@ -49,6 +50,7 @@ function PanelProductos() {
     setData(data.filter((card) => card.id !== id));
   }
 
+  // Se realiza el fetch para actualizar un producto
   function handleUpdate(id) {
     let producto = (data.filter((card) => card.id === id))[0];
     console.log(producto)
@@ -57,30 +59,18 @@ function PanelProductos() {
     setUpdateProduct(producto);
   }
 
+  // Cierra el formulario de crear producto
   function handleNewProduct() {
     setNewProduct(!newProduct);
   }
 
+  // Recibe del componente newproduct si se agrego un componente para volver a renderizar los productos
   function addNewProduct(productoAgregado) {
     if(productoAgregado)
     {handleFetch();}
-    /*
-    fetch("http://localhost:8081/api/producto", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": localStorage.getItem("token"),
-      },
-      body: JSON.stringify(producto),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
-    setData([...data, producto]);
-    */
   }
 
+  // Se realiza el fetch para traer las categorias y pasarselas al componente newproduct
   function getCategorias() {
     fetch("http://107.20.56.84/api/categoria", { method: "GET" })
     .then((response) => response.json())
@@ -88,6 +78,7 @@ function PanelProductos() {
       setCategoriasApi(data)
     })
   }
+  // Se realiza el fetch para traer las caracteristicas y pasarselas al componente newproduct
   function getCaracteristicas(){
     fetch("http://107.20.56.84/api/caracteristica", { method: "GET" })
     .then((response) => response.json())

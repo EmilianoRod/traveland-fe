@@ -13,6 +13,7 @@ function NewProduct({ addProduct, categoriasApi, caracteristicasApi }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
 
+  // Se arma el objeto del producto para enviar en el POST
   function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
@@ -32,6 +33,8 @@ function NewProduct({ addProduct, categoriasApi, caracteristicasApi }) {
       type: "multipart/form-data"
     }));
     console.log(producto.getAll("productInfo"));
+
+    // Se hace el POST
     fetch("http://107.20.56.84/api/producto", {
       method: "POST",
       body: producto,
@@ -47,10 +50,13 @@ function NewProduct({ addProduct, categoriasApi, caracteristicasApi }) {
       }, 5000);
     })
   }
+
+  // Se renderizan las opciones de categorias y caracteristicas cuando se inicia el componente
   useEffect(() => {
     renderCategorias();
     renderCaracteristicas();
   }, []);
+  // Se 
   function renderCategorias() {
     const list = document.querySelector("#product_category");
     categoriasApi.forEach((category) => {
@@ -64,6 +70,7 @@ function NewProduct({ addProduct, categoriasApi, caracteristicasApi }) {
     });
   }
 
+  // Manejadores para guardar datos en los estados
   function manejarImagenes(e) {
     const files = e.target.files;
     setImagenes(files);

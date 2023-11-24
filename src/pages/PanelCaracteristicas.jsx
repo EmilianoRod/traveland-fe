@@ -17,6 +17,7 @@ function PanelCaracteristicas() {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
+  // Se realiza el fetch para traer todas las caracteristicas
   function fetchData() {
     fetch("http://107.20.56.84/api/caracteristica", { method: "GET" })
       .then((response) => response.json())
@@ -26,12 +27,14 @@ function PanelCaracteristicas() {
         setLoading(false);
       });
   }
+  // Se arma el objeto para enviar al backend y crear una nueva caracteristica
   function handleNuevaCaracteristica(e) {
     e.preventDefault();
     const caracteristica = {
       nombre: nuevaCaracteristica
     };
     setLoading(true);
+    // Se realiza el fetch para crear una nueva caracteristica
     fetch("http://107.20.56.84/api/caracteristica", {
       method: "POST",
       headers: {
@@ -63,6 +66,7 @@ function PanelCaracteristicas() {
     });
   }
 
+  // Se realiza consulta y se realiza el fetch para borrar una caracteristica
   function handleDelete(id, nombre) {
     const check = window.confirm(
       `¿Seguro que quieres eliminar la caracteristica ${nombre}?`

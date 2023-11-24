@@ -18,13 +18,17 @@ function DetalleProducto() {
   const [imagenesUrl, setImagenesUrl] = useState([]);
   const [caracteristicas, setCaracteristicas] = useState([]);
 
+
+  // Se realizan los fetch para traer los datos del producto, las imagenes y las caracteristicas
   useEffect(() => {
+    // Obtener el producto
     fetch(`http://107.20.56.84/api/producto/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setLoading(false);
         setProducto(data);
       });
+    // Obtener las imagenes
     fetch("http://107.20.56.84/api/producto/traerImagenes/" + id, {
       method: "GET",
     })
@@ -33,6 +37,7 @@ function DetalleProducto() {
         console.log(data);
         setImagenesUrl(data);
       });
+    // Obtener las caracteristicas
     fetch("http://107.20.56.84/api/producto/caracteristica/" + id, {
       method: "GET",
     })
@@ -43,6 +48,7 @@ function DetalleProducto() {
     })
   }, [id]);
 
+  // Renderizar el loading mientras se cargan los datos
   if (!producto) {
     return (
       <CircularProgress
@@ -68,6 +74,7 @@ function DetalleProducto() {
         {producto.fechaFinal.slice(0, 10)}
       </Typography>
       <Box sx={{ display: "flex", gap: 1, marginTop: "1rem" }}>
+        // Renderizar las caracteristicas
         <Typography sx={{ fontWeight: "bold", fontSize: "1.5rem", backgroundColor: "#CCC", padding: "5px", borderRadius: "5px"}}>CARACTERISTICAS:</Typography>
         {caracteristicas.map((caracteristica) => (
           <Typography sx={{ fontWeight: "bold", fontSize: "1.5rem", backgroundColor: "#f5f5f5", padding: "5px", borderRadius: "5px", margin: "0 5px"}} key={caracteristica.id}>{caracteristica.nombre}</Typography>
@@ -84,7 +91,8 @@ function DetalleProducto() {
       >
         <CardMedia
           component="img"
-          sx={{ width: "85%", objectFit: "cover" }}
+          sx={{ width: "70%", objectFit: "cover" }}
+          // Si no hay imagenes, mostrar una imagen predeterminada
           image={
             imagenesUrl.length > 0
               ? imagenesUrl[0]

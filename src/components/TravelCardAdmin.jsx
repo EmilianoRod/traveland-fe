@@ -4,12 +4,16 @@ import { useEffect, useState } from "react";
 function TravelCardAdmin({id, handleDelete, handleUpdate, nombre, descripcion, imagenes, categoria}) {
 
     const [imagenesUrl, setImagenesUrl] = useState([]);
+    // Se envia el id del producto al componente Panel de Productos para realizar el delete
     function buttonDelete(){
         handleDelete(id);
     }
+    // Se envia el id del producto al componente Panel de Productos para realizar el update
+
     function buttonUpdate(){
         handleUpdate(id);
     }
+    // Se realiza el fetch para traer la imagen del producto
     function handleFetch(){
         fetch("http://107.20.56.84/api/producto/traerImagenes/" + id, {
           method: "GET"
