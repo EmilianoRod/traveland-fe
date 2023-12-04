@@ -42,6 +42,7 @@ function Home() {
               nombre: card.nombre,
               descripcion: card.descripcion,
               imagenes: card.imagenes,
+              puntaje: card.puntaje
             };
           })
         );
@@ -212,6 +213,7 @@ function Home() {
                       id={card.id}
                       favoritos={favs ? favs : null}
                       change={handleChange}
+                      puntaje={card.puntaje}
                     />
                   </Grid>
                 );
@@ -272,6 +274,7 @@ function Home() {
                         id={card.id}
                         favoritos={favs ? favs : null}
                         change={handleChange}
+                        puntaje={card.puntaje}
                       />
                     </Grid>
                   );
@@ -304,6 +307,7 @@ function Home() {
                       id={card.id}
                       favoritos={favs}
                       change={handleChange}
+                      puntaje={card.puntaje}
                     />
                   </Grid>
                 );

@@ -4,6 +4,7 @@ import { BorderColor, Logout } from "@mui/icons-material";
 import Product from "./components/Product";
 import TravelCard from "./components/TravelCard";
 import Navbar from "./components/navbar/Navbar";
+import WhatsAppLink from "./components/WhatsAppLink";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
@@ -23,6 +24,7 @@ import React from "react";
 import { useEffect } from "react";
 import UsuarioAdmin from "./pages/UsuarioAdmin";
 import PanelCaracteristicas from "./pages/PanelCaracteristicas";
+import Reserva from "./pages/Reserva";
 
 export const UserContext = React.createContext();
 
@@ -112,9 +114,11 @@ function App() {
               element={<PanelCaracteristicas />}
             />
             <Route path="/detalleproducto/:id" element={<DetalleProducto />} />
+            <Route path="/reserva/:id" element={<Reserva />} />
           </Routes>
         </Container>
         <Footer />
+        <WhatsAppLink />
       </UserContext.Provider>
     </>
   );

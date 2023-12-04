@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Card,
   CardActionArea,
@@ -10,8 +11,9 @@ import {
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import StarIcon from "@mui/icons-material/Star";
 
-function TravelCard({ nombre, fechaInicio, fechaFinal, descripcion, id, favoritos, change }) {
+function TravelCard({ nombre, fechaInicio, fechaFinal, descripcion, id, favoritos, change, puntaje }) {
   const [isFav, setIsFav] = useState();
   const [imagenesUrl, setImagenesUrl] = useState([]);
 
@@ -31,10 +33,7 @@ function TravelCard({ nombre, fechaInicio, fechaFinal, descripcion, id, favorito
     handleFetch();
   },[])
 
-  useEffect(() => {
-    if (favoritos != null)
-      setIsFav(favoritos.map((fav) => fav.id).includes(id));
-  })
+
 
   // Se realiza el fetch para agregar un favorito
   function handleAddFav(id) {
@@ -78,6 +77,12 @@ function TravelCard({ nombre, fechaInicio, fechaFinal, descripcion, id, favorito
         />
         <CardContent sx={{ textDecoration: "none" }}>
           <Typography variant="h5">{nombre}</Typography>
+          <Box display="flex" alignItems="center" mb={2}>
+            <Typography display="flex" alignItems="center" variant="h6">
+              {puntaje}{" "}
+              {<StarIcon sx={{ color: "gold", fontSize: "1.8rem" }} />}
+            </Typography>
+          </Box>
           <Typography component="p" variant="body2">
             {descripcion}
           </Typography>

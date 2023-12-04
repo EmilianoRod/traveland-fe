@@ -9,6 +9,7 @@ import {
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { useEffect, useState } from "react";
 import Favoritos from "../components/Favoritos";
+import Reservados from "../components/Reservados";
 
 function UsuarioAdmin() {
   const [loading, setLoading] = useState(false);
@@ -80,6 +81,9 @@ function UsuarioAdmin() {
         </Box>
         <Box sx={{ mt: 5, mb: 5 }}>
           <Favoritos />
+        </Box>
+        <Box sx={{ mt: 5, mb: 5 }}>
+          <Reservados />
         </Box>
       </Box>
       ): null}

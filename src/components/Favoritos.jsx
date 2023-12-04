@@ -73,13 +73,16 @@ function Favoritos() {
       >
         <Typography variant="h4">Tus paseos favoritos</Typography>
         {favoritos.length == 0 ? (
-          <Link sx={{ textDecoration: "none" }} href="/"  variant="h5">No tienes paseos favoritos, agrega alguno!</Link>
+          <Link sx={{ textDecoration: "none" }} href="/" variant="h5">
+            No tienes paseos favoritos, agrega alguno!
+          </Link>
         ) : null}
         <Grid container spacing={8} justifyContent="space-evenly" pt={15}>
           {favoritos.map((card) => {
             return (
               <Grid item key={card.id}>
                 <TravelCard
+                  puntaje={card.puntaje}
                   nombre={card.nombre}
                   descripcion={card.descripcion}
                   imagenes={card.imagenes}

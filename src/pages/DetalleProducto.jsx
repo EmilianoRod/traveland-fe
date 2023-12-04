@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   Typography,
   Card,
@@ -9,7 +9,10 @@ import {
   Button,
   Box,
   CircularProgress,
+  TextField,
+  Rating,
 } from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
 
 function DetalleProducto() {
   const { id } = useParams();
@@ -17,7 +20,9 @@ function DetalleProducto() {
   const [loading, setLoading] = useState(true);
   const [imagenesUrl, setImagenesUrl] = useState([]);
   const [caracteristicas, setCaracteristicas] = useState([]);
-
+  const [comentarios, setComentarios] = useState([]);
+  const [puntuarProducto, setPuntuarProducto] = useState();
+  const [comentarioForm, setComentarioForm] = useState();
 
   // Se realizan los fetch para traer los datos del producto, las imagenes y las caracteristicas
   useEffect(() => {
@@ -41,12 +46,41 @@ function DetalleProducto() {
     fetch("http://107.20.56.84/api/producto/caracteristica/" + id, {
       method: "GET",
     })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      setCaracteristicas(data);
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setCaracteristicas(data);
+      });
+    fetch("http://107.20.56.84/api/producto/calificaciones/" + id, {
+      method: "GET",
     })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setComentarios(data);
+      });
   }, [id]);
+
+  function handlePuntuar(e) {
+    e.preventDefault();
+    const payload = {
+      puntuacion: puntuarProducto,
+      comentario: comentarioForm,
+      producto: { id: id },
+      usuario: localStorage.getItem("email"),
+    };
+    fetch("http://107.20.56.84/api/producto/calificar", {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        window.location.reload();
+      });
+  }
 
   // Renderizar el loading mientras se cargan los datos
   if (!producto) {
@@ -73,13 +107,38 @@ function DetalleProducto() {
         Fecha de viaje: {producto.fechaInicio.slice(0, 10)} hasta{" "}
         {producto.fechaFinal.slice(0, 10)}
       </Typography>
+
       <Box sx={{ display: "flex", gap: 1, marginTop: "1rem" }}>
-        // Renderizar las caracteristicas
-        <Typography sx={{ fontWeight: "bold", fontSize: "1.5rem", backgroundColor: "#CCC", padding: "5px", borderRadius: "5px"}}>CARACTERISTICAS:</Typography>
+        <Typography
+          sx={{
+            fontWeight: "bold",
+            fontSize: "1.5rem",
+            backgroundColor: "#CCC",
+            padding: "5px",
+            borderRadius: "5px",
+          }}
+        >
+          CARACTERISTICAS:
+        </Typography>
         {caracteristicas.map((caracteristica) => (
-          <Typography sx={{ fontWeight: "bold", fontSize: "1.5rem", backgroundColor: "#f5f5f5", padding: "5px", borderRadius: "5px", margin: "0 5px"}} key={caracteristica.id}>{caracteristica.nombre}</Typography>
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              fontSize: "1.5rem",
+              backgroundColor: "#f5f5f5",
+              padding: "5px",
+              borderRadius: "5px",
+              margin: "0 5px",
+            }}
+            key={caracteristica.id}
+          >
+            {caracteristica.nombre}
+          </Typography>
+          
         ))}
+        
       </Box>
+      <Typography sx={{ marginTop: "1rem", fontSize: "1.5rem", fontWeight: "bold", textAlign: "center" }}>Cupos disponibles: {producto.cupos}</Typography>
       <Card
         sx={{
           flex: 1,
@@ -89,6 +148,7 @@ function DetalleProducto() {
           boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
         }}
       >
+
         <CardMedia
           component="img"
           sx={{ width: "70%", objectFit: "cover" }}
@@ -108,6 +168,14 @@ function DetalleProducto() {
             padding: "20px",
           }}
         >
+          <Box display="flex" alignItems="center" mb={2}>
+            <Typography display="flex" alignItems="center" variant="h5">
+              Calificación: {producto.puntaje}{" "}
+              {<StarIcon sx={{ color: "gold", fontSize: "1.8rem" }} />}
+            </Typography>
+            <Typography>({comentarios.length} puntuaciones)</Typography>
+          </Box>
+          
           <Typography variant="h5" mb={2}>
             {producto.nombre}
           </Typography>
@@ -119,10 +187,62 @@ function DetalleProducto() {
       <Box p={2} mt={2}>
         <Grid container justifyContent="center">
           <Grid item>
-            <Button variant="contained" color="primary">
-              Comprar
-            </Button>
+            <Link sx={{ textDecoration: "none" }} to={localStorage.getItem("token") ? `/reserva/${id}` : "/login"}>
+              <Button variant="contained" color="primary">
+                RESERVAR
+              </Button>
+            </Link>
           </Grid>
+        </Grid>
+      </Box>
+      <Box p={2} mt={2}>
+        <Typography
+          sx={{ fontWeight: "bold", fontSize: "1.5rem", padding: "5px" }}
+        >
+          Comentarios
+        </Typography>
+        <form>
+          <Rating
+            value={puntuarProducto}
+            onChange={(event, newValue) => {
+              setPuntuarProducto(newValue);
+            }}
+          ></Rating>
+          <TextField
+            sx={{ width: "100%", marginBottom: "1rem" }}
+            label="Comentario"
+            id="comentario"
+            type={"text"}
+            onChange={(e) => setComentarioForm(e.target.value)}
+            multiline
+            maxRows={4}
+          ></TextField>
+          <Button onClick={handlePuntuar} variant="contained" color="primary">
+            Agregar comentario
+          </Button>
+        </form>
+        <Grid display={"flex"} flexDirection={"column-reverse"} gap={2}>
+          {comentarios.map((comentario) => (
+            <Box key={comentario.id} borderBottom="1px solid #ccc" p={2}>
+              <Typography></Typography>
+              <Typography sx={{ fontSize: "1rem", padding: "1px" }}>
+                <Box display="flex" alignItems="center" gap={1}>
+                  <Typography>{comentario.usuario}</Typography>
+                  <Typography sx={{ color: "gray" }}>
+                    {" "}
+                    {comentario.fecha.slice(0, 10) +
+                      " " +
+                      comentario.fecha.slice(11, 19)}
+                  </Typography>
+                </Box>
+                <Box display="flex" alignItems="center">
+                  <Typography mr={1}>Calificación:</Typography>
+                  {comentario.puntuacion} {<StarIcon sx={{ color: "gold" }} />}
+                </Box>
+                {comentario.comentario}
+              </Typography>
+            </Box>
+          ))}
         </Grid>
       </Box>
     </Box>
