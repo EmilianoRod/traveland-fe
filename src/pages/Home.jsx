@@ -33,6 +33,7 @@ function Home() {
   const [nombreBusqueda, setNombreBusqueda] = useState();
   const [filtradoPorNombre, setFiltradoPorNombre] = useState();
   const [filtradoPorFecha, setFiltradoPorFecha] = useState(false);
+  const [sinResultados, setSinResultados] = useState();
 
   // Se realiza el fetch para traer 10 cards aleatorias
   function handleFetch() {
@@ -104,6 +105,7 @@ function Home() {
 
   // Se realiza el fetch para traer los productos filtrados por fecha
   function handleFiltrarFecha() {
+    setSinResultados(null);
     // Si se seleccionaron ambas fechas y no son nulas, se arma el objeto para enviarle a la API las dos fechas con formato dd/mm/aaaa
     if (fechaInicial != null && fechafinal != null) {
       setLoadingFiltrados(true);
@@ -132,17 +134,20 @@ function Home() {
           setFiltrados(data);
           setLoadingFiltrados(false);
           setFiltradoPorFecha(true);
+          if(data.length === 0){
+            setSinResultados("No se encontraron resultados");
+          }
         })
         .catch((error) => {
           console.log(error);
         });
-        
     } else {
       setError("Debe seleccionar ambas fechas");
     }
   }
 
   function handleFiltrarPorNombre(e) {
+    setSinResultados(null);
     setLoadingFiltrados(true);
     console.log(nombreBusqueda);
     fetch(
@@ -156,6 +161,9 @@ function Home() {
         setFiltrados(data);
         setLoadingFiltrados(false);
         setFiltradoPorNombre(nombreBusqueda);
+        if (data.length === 0) {
+          setSinResultados("No se encontraron resultados");
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -226,6 +234,7 @@ function Home() {
           </Typography>
         ) : null}
       </Box>
+
       {loadingFiltrados ? (
         <CircularProgress
           sx={{ display: "block", margin: "auto" }}
@@ -240,19 +249,26 @@ function Home() {
               padding: 2,
             }}
           >
-            {filtradoPorFecha ? (
+            {filtradoPorFecha && sinResultados == null ? (
               <Typography sx={{ margin: 2 }} variant="h4">
                 Paseos entre el {fechaInicial.slice(0, 10)} y el{" "}
                 {fechafinal.slice(0, 10)}
               </Typography>
             ) : null}
-            { filtradoPorNombre ? (
+            {filtradoPorNombre && sinResultados == null ? (
               <Typography sx={{ margin: 2 }} variant="h4">
                 Filtrando por {nombreBusqueda}
               </Typography>
             ) : null}
 
             <Grid container spacing={8} justifyContent="space-evenly">
+              {sinResultados ? (
+                <Grid item>
+                  <Typography sx={{ color: "red", padding: 1, marginTop: 2 }}>
+                    {sinResultados}
+                  </Typography>
+                </Grid>
+              ) : null}
               {filtrados.map((card) => {
                 return (
                   <Grid item key={card.id}>
