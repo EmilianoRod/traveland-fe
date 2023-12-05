@@ -13,6 +13,7 @@ import {
   Rating,
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
+import ShareDialog from "../components/ShareDialog";
 
 function DetalleProducto() {
   const { id } = useParams();
@@ -192,6 +193,7 @@ function DetalleProducto() {
                 RESERVAR
               </Button>
             </Link>
+            <ShareDialog title={producto.nombre} />
           </Grid>
         </Grid>
       </Box>

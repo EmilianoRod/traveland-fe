@@ -18,6 +18,6 @@ function WhatsAppLink(){
             padding: 7
         }}><WhatsApp fontSize="large" /></a>
     )
-};
+}
 
 export default WhatsAppLink;

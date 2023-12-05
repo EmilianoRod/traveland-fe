@@ -5,6 +5,7 @@ import {
   Grid,
   Typography,
   CircularProgress,
+  TextField,
 } from "@mui/material";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -15,6 +16,7 @@ import TravelCard from "../components/TravelCard";
 import Categoria from "../components/navbar/Categoria";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import SearchIcon from "@mui/icons-material/Search";
 
 function Home() {
   const [randomCard, setRandomCard] = useState([]);
@@ -28,6 +30,9 @@ function Home() {
   const [fechafinal, setFechafinal] = useState();
   const [filtrados, setFiltrados] = useState();
   const [error, setError] = useState();
+  const [nombreBusqueda, setNombreBusqueda] = useState();
+  const [filtradoPorNombre, setFiltradoPorNombre] = useState();
+  const [filtradoPorFecha, setFiltradoPorFecha] = useState(false);
 
   // Se realiza el fetch para traer 10 cards aleatorias
   function handleFetch() {
@@ -42,12 +47,12 @@ function Home() {
               nombre: card.nombre,
               descripcion: card.descripcion,
               imagenes: card.imagenes,
-              puntaje: card.puntaje
+              puntaje: card.puntaje,
             };
           })
         );
       });
-  // Se realiza el fetch para traer las categorias
+    // Se realiza el fetch para traer las categorias
     fetch("http://107.20.56.84/api/categoria", { method: "GET" })
       .then((response) => response.json())
       .then((data) => {
@@ -126,13 +131,35 @@ function Home() {
         .then((data) => {
           setFiltrados(data);
           setLoadingFiltrados(false);
+          setFiltradoPorFecha(true);
         })
         .catch((error) => {
           console.log(error);
         });
+        
     } else {
       setError("Debe seleccionar ambas fechas");
     }
+  }
+
+  function handleFiltrarPorNombre(e) {
+    setLoadingFiltrados(true);
+    console.log(nombreBusqueda);
+    fetch(
+      `http://107.20.56.84/api/producto/filtrarNombre?nombre=${nombreBusqueda}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        setFiltrados(data);
+        setLoadingFiltrados(false);
+        setFiltradoPorNombre(nombreBusqueda);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   return (
@@ -154,28 +181,41 @@ function Home() {
         <Box
           sx={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "space-evenly",
             alignItems: "center",
-            gap: 10,
           }}
         >
-          <label htmlFor="fechaInicial">Desde:</label>
-          <input
-            onChange={(e) => setFechaInicial(e.target.value)}
-            id="fechaInicial"
-            type={"date"}
-            style={{ width: 200, height: 30 }}
-          ></input>
-          <label htmlFor="fechaFinal">Hasta:</label>
-          <input
-            onChange={(e) => setFechafinal(e.target.value)}
-            id="fechaFinal"
-            type={"date"}
-            style={{ width: 200, height: 30 }}
-          ></input>
-          <Button onClick={handleFiltrarFecha} variant="contained">
-            Buscar
-          </Button>
+          <Box>
+            <label htmlFor="buscador">Buscar: </label>
+            <input
+              id="buscador"
+              style={{ width: 200, height: 30, backgroundColor: "white" }}
+              onChange={(e) => setNombreBusqueda(e.target.value)}
+            ></input>
+            <Button onClick={handleFiltrarPorNombre} variant="contained">
+              <SearchIcon />
+            </Button>
+          </Box>
+
+          <Box>
+            <label htmlFor="fechaInicial">Desde: </label>
+            <input
+              onChange={(e) => setFechaInicial(e.target.value)}
+              id="fechaInicial"
+              type={"date"}
+              style={{ width: 200, height: 30 }}
+            ></input>
+            <label htmlFor="fechaFinal">Hasta: </label>
+            <input
+              onChange={(e) => setFechafinal(e.target.value)}
+              id="fechaFinal"
+              type={"date"}
+              style={{ width: 200, height: 30 }}
+            ></input>
+            <Button onClick={handleFiltrarFecha} variant="contained">
+              <SearchIcon />
+            </Button>
+          </Box>
         </Box>
         {error ? (
           <Typography
@@ -200,6 +240,18 @@ function Home() {
               padding: 2,
             }}
           >
+            {filtradoPorFecha ? (
+              <Typography sx={{ margin: 2 }} variant="h4">
+                Paseos entre el {fechaInicial.slice(0, 10)} y el{" "}
+                {fechafinal.slice(0, 10)}
+              </Typography>
+            ) : null}
+            { filtradoPorNombre ? (
+              <Typography sx={{ margin: 2 }} variant="h4">
+                Filtrando por {nombreBusqueda}
+              </Typography>
+            ) : null}
+
             <Grid container spacing={8} justifyContent="space-evenly">
               {filtrados.map((card) => {
                 return (
