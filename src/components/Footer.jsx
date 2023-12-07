@@ -17,9 +17,12 @@ function Footer() {
             }}
         >
             <Container >
-                <Grid container direction="row" justifyContent={"space-between"} alignItems={"center"}>
+                <Grid  container direction="row" justifyContent={"space-between"} alignItems={"center"} flexWrap={'nowrap'}
+                    sx={{
+                        
+                    }}>
 
-                    <Grid container direction="row" justifyContent={"flex-start"} alignItems={"flex-start"}>
+                    <Grid container direction="row" justifyContent={"flex-start"} alignItems={"flex-start"} >
                         <Grid item >
                             <img src="public/logo 2.png" />
                         </Grid>
@@ -33,15 +36,15 @@ function Footer() {
                     </Grid> 
 
 
-                    <Grid container direction="row" justifyContent={"flex-end"} alignItems={"center"}>
+                    <Grid container direction="row" justifyContent={"flex-end"} alignItems={"center"} gap={'1rem'}>
                         <Grid item >
-                            <InstagramIcon sx={{ color: 'white' }} />
+                            <InstagramIcon sx={{ color: 'white' }} fontSize="large"/>
                         </Grid>
                         <Grid item >
-                            <TwitterIcon sx={{ color: 'white' }} />
+                            <TwitterIcon sx={{ color: 'white' }} fontSize="large"/>
                         </Grid>
                         <Grid item >
-                            <YouTubeIcon sx={{ color: 'white' }} />
+                            <YouTubeIcon sx={{ color: 'white' }} fontSize="large"/>
                         </Grid>
                     </Grid>
 

@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -16,6 +17,11 @@ import {
 import StarIcon from "@mui/icons-material/Star";
 import ShareDialog from "../components/ShareDialog";
 import Carousel from 'react-material-ui-carousel'
+import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import dayjs from "dayjs";
 
 
 function DetalleProducto() {
@@ -31,8 +37,8 @@ function DetalleProducto() {
 
 
   const categoriasImg = ["https://traveland-g5.s3.amazonaws.com/Hospedaje.png", "https://traveland-g5.s3.amazonaws.com/Independiente.png",
-                          "https://traveland-g5.s3.amazonaws.com/Guiada.png", "https://traveland-g5.s3.amazonaws.com/accesible.png",
-                      ]
+    "https://traveland-g5.s3.amazonaws.com/Guiada.png", "https://traveland-g5.s3.amazonaws.com/accesible.png",
+  ]
 
 
 
@@ -114,16 +120,9 @@ function DetalleProducto() {
   }
 
   return (
-    <Box display="flex" flexDirection="column" height="100%">
-      <Typography
-        sx={{ textAlign: "center", marginTop: "8rem", fontSize: "2rem" }}
-        textAlign="center"
-      >
-        Fecha de viaje: {producto.fechaInicio.slice(0, 10)} hasta{" "}
-        {producto.fechaFinal.slice(0, 10)}
-      </Typography>
+    <Box display="flex" flexDirection="column" height="100%" >
 
-      <Box sx={{ display: "flex", gap: 1, marginTop: "1rem" }}>
+      <Box sx={{ display: "flex", gap: 1, marginTop: "10rem" }}>
         <Typography
           sx={{
             fontWeight: "bold",
@@ -171,12 +170,14 @@ function DetalleProducto() {
       >
 
         <Carousel
-          sx={{width: '100%', height:{xs: '15rem', sm: '20rem', lg: '40rem', xl:'40rem'}}}>
-                {
-                    imagenesUrl.map( item => <img alt="Imagen del producto" style={{  'max-width': '100%',
-                      'height': 'auto'}} key={item} src={item}/> )
-                }
-            </Carousel>
+          sx={{ width: '100%', height: { xs: '15rem', sm: '20rem', lg: '40rem', xl: '40rem' } }}>
+          {
+            imagenesUrl.map(item => <img alt="Imagen del producto" style={{
+              'max-width': '100%',
+              'height': 'auto'
+            }} key={item} src={item} />)
+          }
+        </Carousel>
         <CardContent
           sx={{
             display: "flex",
@@ -187,21 +188,46 @@ function DetalleProducto() {
           }}
         >
           <Box display="flex" alignItems="center" mb={2}>
-            <Typography display="flex" alignItems="center" variant="h5">
-              Calificación: {producto.puntaje}{" "}
-              {<StarIcon sx={{ color: "gold", fontSize: "1.8rem" }} />}
-            </Typography>
-            <Typography>({comentarios.length} puntuaciones)</Typography>
+
           </Box>
 
           <Typography variant="h5" mb={2}>
             {producto.nombre}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          <Typography variant="body2" fontSize='1rem' color="text.secondary">
             {producto.descripcion}
           </Typography>
+
+          <Typography display="flex" alignItems="center" variant="h5">
+            {producto.puntaje}{" "}
+            {<StarIcon sx={{ color: "gold", fontSize: "1.8rem" }} />}
+          </Typography>
+          <Typography>({comentarios.length} puntuaciones)</Typography>
+
         </CardContent>
       </Card>
+
+      <Box
+        sx={{pt: '3rem'}}>
+
+        <LocalizationProvider dateAdapter={AdapterDayjs} >
+          <DemoContainer components={['DateCalendar', 'DateCalendar']} sx={{ display: 'flex', justifyContent:'center', alignItems: 'baseline', gap: 5, flexDirection: {
+            xs: 'column',
+            sm: 'column',
+            lg: 'row',
+            xl: 'row'
+          },}}>
+            <DemoItem label="Desde:">
+            <DateCalendar value={dayjs(producto.fechaInicio.slice(0, 10))} />
+
+            </DemoItem>
+            <DemoItem label="Hasta:">
+            <DateCalendar value={dayjs(producto.fechaFinal.slice(0, 10))} />
+            </DemoItem>
+          </DemoContainer>
+        </LocalizationProvider>
+
+      </Box>
       <Box p={2} mt={2}>
         <Grid container justifyContent="center">
           <Grid item>
@@ -249,31 +275,36 @@ function DetalleProducto() {
             ))}
           </Grid>
         </Box>
-        <Typography
-          sx={{ fontWeight: "bold", fontSize: "1.5rem", padding: "5px" }}
-        >
-          Comentarios
-        </Typography>
-        <form>
-          <Rating
-            value={puntuarProducto}
-            onChange={(event, newValue) => {
-              setPuntuarProducto(newValue);
-            }}
-          ></Rating>
-          <TextField
-            sx={{ width: "100%", marginBottom: "1rem" }}
-            label="Comentario"
-            id="comentario"
-            type={"text"}
-            onChange={(e) => setComentarioForm(e.target.value)}
-            multiline
-            maxRows={4}
-          ></TextField>
-          <Button onClick={handlePuntuar} variant="contained" color="primary">
-            Agregar comentario
-          </Button>
-        </form>
+
+        <Box
+          sx={{ mt: '4rem' }}>
+          <Typography
+            sx={{ fontWeight: "bold", fontSize: "1.5rem", padding: "5px" }}
+          >
+            Comentarios
+          </Typography>
+          <form>
+            <Rating
+              value={puntuarProducto}
+              onChange={(event, newValue) => {
+                setPuntuarProducto(newValue);
+              }}
+            ></Rating>
+            <TextField
+              sx={{ width: "100%", marginBottom: "1rem" }}
+              label="Comentario"
+              id="comentario"
+              type={"text"}
+              onChange={(e) => setComentarioForm(e.target.value)}
+              multiline
+              maxRows={4}
+            ></TextField>
+            <Button onClick={handlePuntuar} variant="contained" color="primary">
+              Agregar comentario
+            </Button>
+          </form>
+        </Box>
+
         <Grid display={"flex"} flexDirection={"column-reverse"} gap={2}>
           {comentarios.map((comentario) => (
             <Box key={comentario.id} borderBottom="1px solid #ccc" p={2}>

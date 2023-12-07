@@ -60,12 +60,12 @@ function Login() {
   }
 
   return (
-    <Grid sx={{ mt: 25 }}>
+    <Grid sx={{ mt: 25, height: '38rem'}}>
       <Paper
         elevation={20}
-        sx={{ padding: "30px 20px", width: 300, margin: "20px auto" }}
+        sx={{ padding: "30px 20px", width: '20rem', margin: "20px auto", height: '24rem' }}
       >
-        <Grid align="center">
+        <Grid align="center" >
           <Avatar sx={{ backgroundColor: "#005F6B" }}>
             <AddCircleOutlineOutlinedIcon />
           </Avatar>
@@ -96,7 +96,8 @@ function Login() {
                 setError(true);
               }
             }}
-          ></TextField>
+          >
+          </TextField>
           {validEmail ? (
             <Typography variant="caption" sx={{ color: "red" }}>
               {validEmail}
@@ -113,7 +114,7 @@ function Login() {
           ></TextField>
 
           <Button
-            sx={{ display: "block" }}
+            sx={{ display: "block", mt:'2.25rem' }}
             type="submit"
             variant="contained"
             color="primary"

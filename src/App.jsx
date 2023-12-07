@@ -118,7 +118,7 @@ function App() {
             <Route path="/reserva/:id" element={<Reserva />} />
           </Routes>
         </Container>
-        <Footer />
+        <Footer   />
         <WhatsAppLink />
       </UserContext.Provider>
     </>

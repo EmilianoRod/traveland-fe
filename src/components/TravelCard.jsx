@@ -62,13 +62,16 @@ function TravelCard({ nombre, fechaInicio, fechaFinal, descripcion, id, favorito
     <Card
       sx={{
         maxWidth: 300,
-        height: '33rem',
+        height: '35rem',
         transition: "0.2s",
         "&:hover": {
           transform: "scale(1.05)",
         },
         textDecoration: "none",
-        backgroundColor: '#cfd1d4'
+        backgroundColor: '#cfd1d4',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
       }}
     >
 
@@ -96,7 +99,7 @@ function TravelCard({ nombre, fechaInicio, fechaFinal, descripcion, id, favorito
         </CardActionArea>
 
       </Link>
-      <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}>
+      <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-around', }}>
         <Link to={`/detalleproducto/${id}`} style={{ textDecoration: 'none', color: 'black' }}>
           <Button >VER MÁS..</Button>
         </Link>
