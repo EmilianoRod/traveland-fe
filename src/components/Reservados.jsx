@@ -65,6 +65,9 @@ function Reservados() {
                   descripcion={card.producto.descripcion}
                   imagenes={card.producto.imagenes}
                   id={card.producto.id}
+                  fechaInicio={card.producto.fechaInicio}
+                  fechaFinal={card.producto.fechaFinal}
+
                 />
               </Grid>
             );

@@ -48,6 +48,8 @@ function Home() {
               descripcion: card.descripcion,
               imagenes: card.imagenes,
               puntaje: card.puntaje,
+              fechaInicio: card.fechaInicio,
+              fechaFinal: card.fechaFinal
             };
           })
         );
@@ -175,12 +177,13 @@ function Home() {
         sx={{
           display: "block",
           border: 1,
-          height: 200,
+          height: 'auto',
           width: 'auto',
           bgcolor: "#005F6B",
           color: "white",
           textAlign: "center",
           pt: 3,
+          pb: '3rem',
           mt: 15,
           boxShadow: "5px 5px 15px #005F6B",
         }}
@@ -192,6 +195,13 @@ function Home() {
             justifyContent: "space-evenly",
             alignItems: "center",
             paddingTop: "3rem",
+            flexDirection: {
+              xs: 'column',
+              sm: 'column',
+              lg: 'row',
+              xl: 'row'
+            },
+
           }}
         >
           <Box>
@@ -209,7 +219,14 @@ function Home() {
           <Box
             sx={{
               display: 'flex',
-              gap: '2.5rem'
+              gap: '2.5rem',
+              flexDirection: {
+                xs: 'column',
+                sm: 'column',
+                lg: 'row',
+                xl: 'row'
+              },
+              alignItems: 'flex-start'
             }}>
             <Box>
               <label htmlFor="fechaInicial">Desde: </label>
@@ -258,18 +275,20 @@ function Home() {
             sx={{
               border: '1px solid #005F6B',
               padding: '7px',
-              borderRadius: '7px'
+              borderRadius: '7px',
+              marginTop: '3rem',
+              paddingBottom: '3rem'
             }}
           >
             {filtradoPorFecha && sinResultados == null ? (
-              <Typography sx={{ margin: 2 }} variant="h4">
+              <Typography sx={{ margin: 2 }} variant="h4" color="primary">
                 Paseos entre el {fechaInicial.slice(0, 10)} y el{" "}
                 {fechafinal.slice(0, 10)}
               </Typography>
             ) : null}
             {filtradoPorNombre && sinResultados == null ? (
-              <Typography sx={{ margin: 2 }} variant="h4">
-                Filtrando por {nombreBusqueda}
+              <Typography sx={{ margin: 2 }} variant="h4" color='primary'>
+                Filtrando por: "{nombreBusqueda}"
               </Typography>
             ) : null}
 

@@ -15,6 +15,8 @@ import {
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import ShareDialog from "../components/ShareDialog";
+import Carousel from 'react-material-ui-carousel'
+
 
 function DetalleProducto() {
   const { id } = useParams();
@@ -25,6 +27,17 @@ function DetalleProducto() {
   const [comentarios, setComentarios] = useState([]);
   const [puntuarProducto, setPuntuarProducto] = useState();
   const [comentarioForm, setComentarioForm] = useState();
+
+
+
+  const categoriasImg = ["https://traveland-g5.s3.amazonaws.com/Hospedaje.png", "https://traveland-g5.s3.amazonaws.com/Independiente.png",
+                          "https://traveland-g5.s3.amazonaws.com/Guiada.png", "https://traveland-g5.s3.amazonaws.com/accesible.png",
+                      ]
+
+
+
+
+
 
   // Se realizan los fetch para traer los datos del producto, las imagenes y las caracteristicas
   useEffect(() => {
@@ -148,26 +161,29 @@ function DetalleProducto() {
           marginTop: "65px",
           borderRadius: "15px",
           boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+          flexDirection: {
+            xs: 'column',
+            sm: 'column',
+            lg: 'row',
+            xl: 'row'
+          },
         }}
       >
 
-        <CardMedia
-          component="img"
-          sx={{ width: "70%", objectFit: "cover" }}
-          // Si no hay imagenes, mostrar una imagen predeterminada
-          image={
-            imagenesUrl.length > 0
-              ? imagenesUrl[0]
-              : "https://via.placeholder.com/200x200"
-          }
-          alt="Imagen del producto"
-        />
+        <Carousel
+          sx={{width: '100%', height:{xs: '15rem', sm: '20rem', lg: '40rem', xl:'40rem'}}}>
+                {
+                    imagenesUrl.map( item => <img alt="Imagen del producto" style={{  'max-width': '100%',
+                      'height': 'auto'}} key={item} src={item}/> )
+                }
+            </Carousel>
         <CardContent
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             padding: "20px",
+            width: 'auto'
           }}
         >
           <Box display="flex" alignItems="center" mb={2}>

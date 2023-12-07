@@ -87,6 +87,8 @@ function Favoritos() {
                   descripcion={card.descripcion}
                   imagenes={card.imagenes}
                   id={card.id}
+                  fechaInicio={card.fechaInicio}
+                  fechaFinal={card.fechaFinal}
                 />
                 <Button
                   onClick={() => handleDesfav(card.id)}

@@ -12,6 +12,8 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import StarIcon from "@mui/icons-material/Star";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 function TravelCard({ nombre, fechaInicio, fechaFinal, descripcion, id, favoritos, change, puntaje }) {
   const [isFav, setIsFav] = useState();
@@ -60,7 +62,7 @@ function TravelCard({ nombre, fechaInicio, fechaFinal, descripcion, id, favorito
     <Card
       sx={{
         maxWidth: 300,
-        height: '31rem',
+        height: '33rem',
         transition: "0.2s",
         "&:hover": {
           transform: "scale(1.05)",
@@ -69,7 +71,7 @@ function TravelCard({ nombre, fechaInicio, fechaFinal, descripcion, id, favorito
         backgroundColor: '#cfd1d4'
       }}
     >
-    
+
       <Link to={`/detalleproducto/${id}`} style={{ textDecoration: 'none', color: 'black' }}>
         <CardActionArea>
           <CardMedia
@@ -80,11 +82,12 @@ function TravelCard({ nombre, fechaInicio, fechaFinal, descripcion, id, favorito
           />
           <CardContent sx={{ textDecoration: "none" }}>
             <Typography variant="h5">{nombre}</Typography>
-            <Box display="flex" alignItems="center" mb={2}>
+            <Box display="flex" alignItems="flex-start" mb={2} flexDirection='column'>
               <Typography display="flex" alignItems="center" variant="h6">
                 {puntaje}{" "}
                 {<StarIcon sx={{ color: "gold", fontSize: "1.8rem" }} />}
               </Typography>
+              <Typography>Desde {fechaInicio.slice(0, 10)} <br/> Hasta {fechaFinal.slice(0,10)}</Typography>
             </Box>
             <Typography component="p" variant="body2">
               {descripcion}
@@ -92,12 +95,17 @@ function TravelCard({ nombre, fechaInicio, fechaFinal, descripcion, id, favorito
           </CardContent>
         </CardActionArea>
 
-        <Button>VER MÁS..</Button>
       </Link>
+      <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}>
+        <Link to={`/detalleproducto/${id}`} style={{ textDecoration: 'none', color: 'black' }}>
+          <Button >VER MÁS..</Button>
+        </Link>
+        <CardActions>
+          {window.location.pathname === "/" && localStorage.getItem("token") ? <Button sx={{}} onClick={() => handleAddFav(id)}>{isFav ? <FavoriteIcon sx={{color: 'red'}} fontSize="large"/> : <FavoriteBorderIcon sx={{color: 'red'}}/> }</Button> : null}
+        </CardActions>
+      </Box>
 
-      <CardActions>
-        {window.location.pathname === "/" && localStorage.getItem("token") ? <Button onClick={() => handleAddFav(id)}>{isFav ? "ES FAV" : "AGREGAR FAV"}</Button> : null}
-      </CardActions>
+
     </Card >
   );
 }

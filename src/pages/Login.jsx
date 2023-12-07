@@ -69,7 +69,7 @@ function Login() {
           <Avatar sx={{ backgroundColor: "#005F6B" }}>
             <AddCircleOutlineOutlinedIcon />
           </Avatar>
-          <h2 style={{ margin: 0 }}>Login</h2>
+          <h2 style={{ margin: 0 }}>Iniciar sesion</h2>
           <Typography variant="caption" gutterBottom>
             Ingresa tus datos para iniciar sesion!
           </Typography>
@@ -118,7 +118,7 @@ function Login() {
             variant="contained"
             color="primary"
           >
-            Sign Up
+            Ingresar
           </Button>
           {loading ? (
             <CircularProgress sx={{ display: "block", marginLeft: "auto", marginRight: "auto" }} size={50} />

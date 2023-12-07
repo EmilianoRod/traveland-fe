@@ -30,8 +30,10 @@ function Footer() {
                             </Typography>
                         </Grid>
 
+                    </Grid> 
 
-                        <Grid container direction="row" justifyContent={"flex-end"} alignItems={"center"}>
+
+                    <Grid container direction="row" justifyContent={"flex-end"} alignItems={"center"}>
                         <Grid item >
                             <InstagramIcon sx={{ color: 'white' }} />
                         </Grid>
@@ -42,9 +44,6 @@ function Footer() {
                             <YouTubeIcon sx={{ color: 'white' }} />
                         </Grid>
                     </Grid>
-
-                    </Grid>
-
 
                 </Grid>
             </Container>
