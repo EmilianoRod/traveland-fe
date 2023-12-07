@@ -11,6 +11,7 @@ import {
   CircularProgress,
   TextField,
   Rating,
+  Paper
 } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import ShareDialog from "../components/ShareDialog";
@@ -135,9 +136,9 @@ function DetalleProducto() {
           >
             {caracteristica.nombre}
           </Typography>
-          
+
         ))}
-        
+
       </Box>
       <Typography sx={{ marginTop: "1rem", fontSize: "1.5rem", fontWeight: "bold", textAlign: "center" }}>Cupos disponibles: {producto.cupos}</Typography>
       <Card
@@ -176,7 +177,7 @@ function DetalleProducto() {
             </Typography>
             <Typography>({comentarios.length} puntuaciones)</Typography>
           </Box>
-          
+
           <Typography variant="h5" mb={2}>
             {producto.nombre}
           </Typography>
@@ -198,6 +199,40 @@ function DetalleProducto() {
         </Grid>
       </Box>
       <Box p={2} mt={2}>
+        <Box width="100%" p={3} bgcolor="#f0f0f0" borderRadius={10}>
+          {/* Políticas de viaje */}
+          <Typography variant="h4" textAlign="center" fontWeight='bold' marginBottom={5} gutterBottom>
+            Políticas del producto
+          </Typography>
+          <Grid container spacing={3} justifyContent="center">
+            {[
+              {
+                titulo: "Política de Devolución",
+                descripcion:
+                  "Ofrecemos un plazo de devolución de hasta 30 días antes del inicio del viaje. Para más detalles, consultar nuestros términos y condiciones.",
+              },
+              {
+                titulo: "Seguridad Garantizada",
+                descripcion:
+                  "Nos comprometemos a brindar un entorno seguro para nuestros viajeros. Contamos con medidas de seguridad y personal capacitado en todos nuestros destinos.",
+              },
+              {
+                titulo: "Política de Reembolso",
+                descripcion:
+                  "En caso de cancelación por motivos imprevistos, ofrecemos opciones de reembolso parcial o total, sujeto a nuestras políticas de cancelación.",
+              },
+            ].map((politica, index) => (
+              <Grid item xs={12} sm={6} lg={4} marginBottom={5} key={index}>
+                <Paper elevation={3} sx={{ borderRadius: 5, padding: 2 }}>
+                  <Typography variant="h6" gutterBottom textAlign={"center"}>
+                    {politica.titulo}
+                  </Typography>
+                  <Typography textAlign={"center"}>{politica.descripcion}</Typography>
+                </Paper>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
         <Typography
           sx={{ fontWeight: "bold", fontSize: "1.5rem", padding: "5px" }}
         >

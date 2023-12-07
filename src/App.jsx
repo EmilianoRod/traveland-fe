@@ -88,6 +88,7 @@ function App() {
             mt: 5,
             mr: 0,
             ml: 0,
+            paddingBottom: '2rem',
           }}
         >
           <Routes>

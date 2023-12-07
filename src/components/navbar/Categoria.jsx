@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography } from "@mui/material";
 
-function Categoria({nombre}) {
+function Categoria({nombre, img}) {
 
     return (
         <Card
@@ -14,12 +14,12 @@ function Categoria({nombre}) {
             }}
         >
             <CardActionArea>
-                {/* <CardMedia
+                <CardMedia
                     component="img"
-                    image="https://via.placeholder.com/200x200"
+                    image={img}
                     height="200"
                     alt="description"
-                /> */}
+                />
                 <CardContent>
                     <Typography variant="h5">{nombre}</Typography>
                 </CardContent>

@@ -1,17 +1,11 @@
 import {
   Box,
   Button,
-  Container,
   Grid,
   Typography,
   CircularProgress,
-  TextField,
 } from "@mui/material";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import CountrySelect from "../components/CountrySelect";
+
 import TravelCard from "../components/TravelCard";
 import Categoria from "../components/navbar/Categoria";
 import { Link } from "react-router-dom";
@@ -34,6 +28,11 @@ function Home() {
   const [filtradoPorNombre, setFiltradoPorNombre] = useState();
   const [filtradoPorFecha, setFiltradoPorFecha] = useState(false);
   const [sinResultados, setSinResultados] = useState();
+
+
+  const categoriasImg = ["https://traveland-g5.s3.amazonaws.com/Hospedaje.png", "https://traveland-g5.s3.amazonaws.com/Independiente.png",
+                          "https://traveland-g5.s3.amazonaws.com/Guiada.png", "https://traveland-g5.s3.amazonaws.com/accesible.png",
+                      ]
 
   // Se realiza el fetch para traer 10 cards aleatorias
   function handleFetch() {
@@ -134,7 +133,7 @@ function Home() {
           setFiltrados(data);
           setLoadingFiltrados(false);
           setFiltradoPorFecha(true);
-          if(data.length === 0){
+          if (data.length === 0) {
             setSinResultados("No se encontraron resultados");
           }
         })
@@ -177,12 +176,13 @@ function Home() {
           display: "block",
           border: 1,
           height: 200,
-          width: 1,
+          width: 'auto',
           bgcolor: "#005F6B",
           color: "white",
           textAlign: "center",
           pt: 3,
           mt: 15,
+          boxShadow: "5px 5px 15px #005F6B",
         }}
       >
         <Typography variant="h4">BUSQUE AQUI SU DESTINO FAVORITO</Typography>
@@ -191,6 +191,7 @@ function Home() {
             display: "flex",
             justifyContent: "space-evenly",
             alignItems: "center",
+            paddingTop: "3rem",
           }}
         >
           <Box>
@@ -200,29 +201,39 @@ function Home() {
               style={{ width: 200, height: 30, backgroundColor: "white" }}
               onChange={(e) => setNombreBusqueda(e.target.value)}
             ></input>
-            <Button onClick={handleFiltrarPorNombre} variant="contained">
+            <Button color='info' onClick={handleFiltrarPorNombre} variant="contained">
               <SearchIcon />
             </Button>
           </Box>
 
-          <Box>
-            <label htmlFor="fechaInicial">Desde: </label>
-            <input
-              onChange={(e) => setFechaInicial(e.target.value)}
-              id="fechaInicial"
-              type={"date"}
-              style={{ width: 200, height: 30 }}
-            ></input>
-            <label htmlFor="fechaFinal">Hasta: </label>
-            <input
-              onChange={(e) => setFechafinal(e.target.value)}
-              id="fechaFinal"
-              type={"date"}
-              style={{ width: 200, height: 30 }}
-            ></input>
-            <Button onClick={handleFiltrarFecha} variant="contained">
-              <SearchIcon />
-            </Button>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: '2.5rem'
+            }}>
+            <Box>
+              <label htmlFor="fechaInicial">Desde: </label>
+              <input
+                onChange={(e) => setFechaInicial(e.target.value)}
+                id="fechaInicial"
+                type={"date"}
+                style={{ width: 200, height: 30 }}
+              >
+              </input>
+            </Box>
+            <Box>
+              <label htmlFor="fechaFinal">Hasta: </label>
+              <input
+                onChange={(e) => setFechafinal(e.target.value)}
+                id="fechaFinal"
+                type={"date"}
+                style={{ width: 200, height: 30 }}
+              >
+              </input>
+              <Button color='info' onClick={handleFiltrarFecha} variant="contained">
+                <SearchIcon />
+              </Button>
+            </Box>
           </Box>
         </Box>
         {error ? (
@@ -245,8 +256,9 @@ function Home() {
         <Box>
           <Box
             sx={{
-              border: 2,
-              padding: 2,
+              border: '1px solid #005F6B',
+              padding: '7px',
+              borderRadius: '7px'
             }}
           >
             {filtradoPorFecha && sinResultados == null ? (
@@ -291,19 +303,23 @@ function Home() {
         </Box>
       ) : null}
       <Box>
-        <Box>
-          <Typography variant="h4">Categorias</Typography>
+        <Box
+          sx={{marginTop: '4rem'}}
+        >
+          <Typography variant="h4" color="primary">CATEGORIAS</Typography>
           <Box
             sx={{
-              border: 2,
-              padding: 2,
+              border: '1px solid #005F6B',
+              padding: '7px',
+              borderRadius: '7px'
             }}
           >
             <Grid container spacing={8} justifyContent="space-evenly">
               {loading ? (
                 <CircularProgress sx={{ marginTop: 10 }} size={100} />
               ) : null}
-              {categorias.map((categoria) => {
+              {categorias.map((categoria, index) => {
+                                  console.log(index);
                 return (
                   <Grid
                     onClick={() => {
@@ -313,20 +329,28 @@ function Home() {
                     key={categoria.id}
                     item
                   >
-                    <Categoria nombre={categoria.nombre} />
+                    
+                    <Categoria nombre={categoria.nombre} img={categoriasImg[index]}/>
                   </Grid>
                 );
-              })}
+              }
+              )}
             </Grid>
           </Box>
         </Box>
         {catSelected ? (
-          <Box>
-            <Typography variant="h4">{catSelected}</Typography>
+          <Box
+            sx={{
+              paddingTop: '4rem'
+            }}>
+            <Typography variant="h4" color='primary'>{catSelected}</Typography>
             <Box
               sx={{
-                border: 2,
-                padding: 2,
+                border: 1,
+                padding: '7px',
+                borderRadius: '7px',
+                paddingBottom: '2rem',
+                paddingTop: '2rem'
               }}
             >
               <Grid container spacing={8} justifyContent="space-evenly">
@@ -351,15 +375,19 @@ function Home() {
             </Box>
           </Box>
         ) : null}
-        <Box>
-          <Typography variant="h4">Recomendaciones</Typography>
+        <Box
+        sx={{marginTop: '4rem'}}>
+          <Typography variant="h4" color="primary">RECOMENDACIONES</Typography>
           <Box
             sx={{
-              border: 2,
-              padding: 2,
+              border: 1,
+              padding: '7px',
+              borderRadius: '7px',
+              paddingTop: '2rem',
+              paddingBottom: '2rem'
             }}
           >
-            <Grid container spacing={8} justifyContent="space-evenly">
+            <Grid container spacing={8} justifyContent="space-evenly" paddingTop={2} paddingBottom={2}>
               {loading ? (
                 <CircularProgress sx={{ marginTop: 10 }} size={100} />
               ) : null}
